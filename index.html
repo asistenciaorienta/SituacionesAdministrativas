@@ -910,47 +910,6 @@
         setTimeout(() => panel.classList.add("hidden"), 600);
       }
 
-      function buscarDesdeSugerencias() {
-        const checkboxes = document.querySelectorAll('#sugerenciasForm input[type="checkbox"]:checked');
-        const seleccionados = Array.from(checkboxes).map(cb => cb.value);
-
-        if (seleccionados.length === 0) {
-          alert("Debes seleccionar al menos un concepto.");
-          return;
-        }
-
-        let conceptoBusqueda = null;
-
-        if (seleccionados.length === 1) {
-          // Si solo hay uno seleccionado, buscar ese mismo
-          conceptoBusqueda = seleccionados[0];
-        } else {
-          // Si hay más de uno, buscar la primera combinación válida que contenga todos
-          for (const combinacion of combinacionesValidas) {
-            const esSubconjunto = seleccionados.every(sel => combinacion.includes(sel));
-            if (esSubconjunto) {
-              conceptoBusqueda = combinacion[0]; // usar el primero de la combinación
-              break;
-            }
-          }
-
-          if (!conceptoBusqueda) {
-            alert("La combinación seleccionada no es válida.");
-            return;
-          }
-        }
-
-        // Colocar en el textarea y lanzar búsqueda
-        document.getElementById("search-box").value = conceptoBusqueda;
-        document.getElementById("buscarBtn").click();
-
-        // Ocultar sugerencias
-        document.getElementById("resultado").classList.add("hidden");
-        document.getElementById("buscarBtn").classList.remove("hidden");
-        ocultarSugerencias();
-      }
-
-
       function mostrarAyudaConceptos() {
         const container = document.getElementById("resultado");
         const lista = conceptosClave.map(c => `<li>${c}</li>`).join("");
@@ -983,74 +942,85 @@
         document.getElementById("mensaje-aclaratorio").classList.add("hidden");
       }
 
-      document.getElementById("buscarBtn").addEventListener("click", function() {
-        const texto = document.getElementById("search-box").value.trim();
+      <script>
+  const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxigLGGauWCphFL95VD5R0mWm5mM65_wuq5KhwWxyZmM8I8h5pJQ-nKzJ5u6DqpNJTvaw/exec";
 
-        document.getElementById("loader").style.display = "block";
-          google.script.run
-          .withSuccessHandler(function(resultados) {
-            document.getElementById("loader").style.display = "none";
-            const contenedor = document.getElementById("resultado");
-            contenedor.innerHTML = ""; // Limpiar resultados anteriores
+  // 🔎 Nueva función buscar()
+  async function buscar() {
+    const searchText = document.getElementById("search-box").value.trim();
+    const opcionesMarcadas = []; // si usas checkboxes en sugerencias, aquí se pasan
 
-            if (!resultados || resultados.length === 0) {
-              contenedor.innerHTML = `
-              <p style="text-align: center;">No se encontró nada. Si necesitas ayuda, puedes clicar en: 
-              <button class="btn-small" onclick="mostrarSugerencias()">Mostrar sugerencias</button> </p>
-            `;
+    if (!searchText) {
+      mostrarModal("Por favor, introduce un texto para buscar.");
+      return;
+    }
 
-            } else {
-              let tablaHTML = `
-                <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; width: 100%;">
-                  <thead style="background-color: #f2f2f2;">
-                    <tr>
-                      <th style="width: 10%;">Código de autorización</th>
-                      <th style="width: 20%;">Alcance de la autorización</th>
-                      <th style="width: 33%;">Modalidad de la Demanda</th>
-                      <th>Instrucciones específicas</th>
-                      <th>Documentación</th>
-                    </tr>
-                  </thead>
-                  
-                  <tbody>
-              `;
+    document.getElementById("loader").style.display = "block";
+    document.getElementById("resultado").classList.add("hidden");
 
-              resultados.forEach(item => {
-                  let enlaceDoc = "-";
-                  if (item.documento && item.documento.trim() !== "") {
-                      // Si empieza por http, lo convierte en enlace
-                      if (/^https?:\/\//i.test(item.documento)) {
-                          enlaceDoc = `<a href="${item.documento}" target="_blank">Ver documento</a>`;
-                      } else {
-                          enlaceDoc = item.documento; // Texto normal si no es URL
-                      }
-                  }
-
-                  tablaHTML += `
-                      <tr>
-                          <td>${item.codigo}</td>
-                          <td>${item.autoriza}</td>
-                          <td>${item.modalidad.replace(/\n/g, "<br>")}</td>
-                          <td>${item.observaciones}</td>
-                          <td>${enlaceDoc}</td>
-                      </tr>
-                  `;
-              });
-
-              tablaHTML += "</tbody></table>";
-              contenedor.innerHTML = tablaHTML;
-            }
-
-            document.getElementById("resultado").classList.remove("hidden");
-          })
-          .withFailureHandler(function(error) {
-            document.getElementById("loader").style.display = "none";
-            alert("Error al buscar: " + error.message);
-          })
-          .buscarDatos(texto, []);
-
+    try {
+      const response = await fetch(WEBAPP_URL, {
+        method: "POST",
+        body: JSON.stringify({ searchText, opcionesMarcadas })
       });
+
+      if (!response.ok) throw new Error("Error en la petición");
+
+      const data = await response.json();
+      mostrarResultado(data);
+
+    } catch (err) {
+      console.error(err);
+      mostrarModal("Error al conectar con el servidor.");
+    } finally {
+      document.getElementById("loader").style.display = "none";
+      document.getElementById("resultado").classList.remove("hidden");
+    }
+  }
+
+  // Reemplazamos onclick del botón Buscar
+  document.getElementById("buscarBtn").onclick = () => {
+    ocultar_resultado();
+    buscar();
+  };
+
+  // Modificamos buscarDesdeSugerencias()
+  function buscarDesdeSugerencias() {
+    const checkboxes = document.querySelectorAll('#sugerenciasForm input[type="checkbox"]:checked');
+    const seleccionados = Array.from(checkboxes).map(cb => cb.value);
+
+    if (seleccionados.length === 0) {
+      alert("Debes seleccionar al menos un concepto.");
+      return;
+    }
+
+    let conceptoBusqueda = null;
+
+    if (seleccionados.length === 1) {
+      conceptoBusqueda = seleccionados[0];
+    } else {
+      for (const combinacion of combinacionesValidas) {
+        const esSubconjunto = seleccionados.every(sel => combinacion.includes(sel));
+        if (esSubconjunto) {
+          conceptoBusqueda = combinacion[0];
+          break;
+        }
+      }
+      if (!conceptoBusqueda) {
+        alert("La combinación seleccionada no es válida.");
+        return;
+      }
+    }
+
+    document.getElementById("search-box").value = conceptoBusqueda;
+    buscar();
+    ocultarSugerencias();
+  }
+
+
 
     </script>
   </body>
 </html>
+
+<!--      const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxigLGGauWCphFL95VD5R0mWm5mM65_wuq5KhwWxyZmM8I8h5pJQ-nKzJ5u6DqpNJTvaw/exec"; -->
