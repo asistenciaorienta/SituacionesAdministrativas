@@ -232,7 +232,7 @@ function volverNoComunitario() {
 }
 
 function mostrarResultado(data) {
-    const contenedor = document.getElementById("resultado");
+    const contenedor = document.getElementById("resultado").classList.remove('hidden');
     contenedor.innerHTML = ""; // Limpiar resultados anteriores
 
     if (!data || data.length === 0) {
