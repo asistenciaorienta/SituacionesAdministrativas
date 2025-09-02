@@ -150,9 +150,9 @@
       }
 
       .tooltip-container {
-        position: absolute;
-        top: 15px;
-        left: 18px;
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
       }
 
       .help-icon {
@@ -171,18 +171,29 @@
       }
 
       .tooltip-text  {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 5px;
-        margin-top: 5px;
+        display: none; /* oculto por defecto */
+        position: absolute;
+        top: 125%;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        border-radius: 6px;
+        z-index: 1;
+        width: 300px;
+        text-align: left;
       }
 
       .country {
         width: calc(20% - 5px); /* 5 países por línea */
       }
 
-      .tooltip-container:hover .tooltip-text {
-        visibility: visible;
+      .tooltip-container:hover .tooltip-text,
+      .tooltip-container:focus-within .tooltip-text {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
       }
 
       .document-list {
