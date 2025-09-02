@@ -217,7 +217,22 @@ function mostrarFormulario() {
   document.getElementById("manual").classList.add("hidden");
   document.getElementById("formulario").classList.remove("hidden");
 }
-
+function volverInicioDesdeFormulario() {
+  document.getElementById("search-box").value = "";
+  document.getElementById("formulario").classList.add("hidden");
+  document.getElementById("manual").classList.remove("hidden");
+  document.getElementById("buscarBtn").classList.remove("hidden");
+}
+function volverInicio() {
+  document.getElementById("nacionalidad-page").classList.remove("hidden");
+  document.getElementById("titulo").classList.remove("hidden");
+  document.getElementById("formulario").classList.add("hidden");
+  document.getElementById("manual").classList.add("hidden");
+  document.getElementById("Doc_Necesaria_Comunitario").classList.add("hidden");
+  document.getElementById("formulario_No_Comunitario").classList.add("hidden");
+  document.getElementById("manual").classList.add("hidden");  
+  document.getElementById("mensaje-aclaratorio").classList.add("hidden");
+}
 function volverNacionalidad() {
   document.getElementById("Doc_Necesaria_Comunitario").classList.add("hidden");
   document.getElementById("formulario_No_Comunitario").classList.add("hidden");
@@ -309,24 +324,6 @@ function mostrarAyudaConceptos() {
     </div>`;
 }
 
-function volverInicioDesdeFormulario() {
-  document.getElementById("search-box").value = "";
-
-  document.getElementById("formulario").classList.add("hidden");
-  document.getElementById("manual").classList.remove("hidden");
-  document.getElementById("buscarBtn").classList.remove("hidden");
-}
-
-function volverInicio() {
-  document.getElementById("nacionalidad-page").classList.remove("hidden");
-  document.getElementById("titulo").classList.remove("hidden");
-  document.getElementById("formulario").classList.add("hidden");
-  document.getElementById("manual").classList.add("hidden");
-  document.getElementById("Doc_Necesaria_Comunitario").classList.add("hidden");
-  document.getElementById("formulario_No_Comunitario").classList.add("hidden");
-  document.getElementById("manual").classList.add("hidden");  
-  document.getElementById("mensaje-aclaratorio").classList.add("hidden");
-}
 
 // 🔎 Nueva función buscar()
 async function buscar() {
