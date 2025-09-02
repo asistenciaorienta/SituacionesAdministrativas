@@ -128,11 +128,12 @@
 
       .btn-small:hover {
         background-color: #bbb;
+        padding: 10px 20px;
       }
 
       .nacionalidad-card {
         text-align: center;
-        padding: 40px;
+        padding: 0px;
       }
 
       .botones-nacionalidad {
@@ -408,7 +409,7 @@
       }
 #inicio {
   position: fixed;
-  top: 0px;
+  top: 10px;
   right: 10px;
   z-index: 1000; /* Asegura que esté por encima de otros elementos */
 }
