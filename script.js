@@ -94,9 +94,9 @@ function cerrarModalBorrar() {
 }
 
 const urls = {
-  "TIE": "/images/TIE.png",
-  "Documento": "/images/resolucion.png",
-  "Tarjeta Roja": "/images/Tarjeta_roja.png"
+  "TIE": "/SituacionesAdministrativas/images/TIE.png",
+  "Documento": "/SituacionesAdministrativas/images/resolucion.png",
+  "Tarjeta Roja": "/SituacionesAdministrativas/images/Tarjeta_roja.png"
 };
 
 const conceptosClave = [
