@@ -94,9 +94,9 @@ function cerrarModalBorrar() {
 }
 
 const urls = {
-  "TIE": "https://i.imgur.com/6YW6bTX.png",
-  "Documento": "https://i.imgur.com/mws3JN2.png",
-  "Tarjeta Roja": "https://i.imgur.com/qjRKecb.png"
+  "TIE": "/images/TIE.png",
+  "Documento": "/images/resolucion.png",
+  "Tarjeta Roja": "/images/Tarjeta_roja.png"
 };
 
 const conceptosClave = [
