@@ -132,14 +132,14 @@
 
       .nacionalidad-card {
         text-align: center;
-        padding: 2rem;
+        padding: 40px;
       }
 
       .botones-nacionalidad {
         display: flex;
         justify-content: center;
         gap: 20px;
-        margin-top: 1rem;
+        margin-top: 16px;
         flex-wrap: wrap;
       }
 
