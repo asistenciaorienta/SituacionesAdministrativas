@@ -210,8 +210,19 @@ function mostrarManual(tipo) {
   localStorage.setItem("tipoDocumento", tipo);        
   document.getElementById("formulario_No_Comunitario").classList.add("hidden"); 
   document.getElementById("manualImg").src = urls[tipo];
-  document.getElementById("manual").classList.remove("hidden");       
+  document.getElementById("manual").classList.remove("hidden");
+
+  // Mostrar avatar Live2D
+  const avatarDiv = document.getElementById("avatarLive2D");
+  avatarDiv.classList.remove("hidden");
+
+  // Solo iniciar una vez
+  if (!window.avatarIniciado) {
+    iniciarAvatarLive2D();
+    window.avatarIniciado = true;
+  }
 }
+
 
 function mostrarFormulario() {
   document.getElementById("manual").classList.add("hidden");
@@ -244,6 +255,7 @@ function volverNoComunitario() {
   document.getElementById("manual").classList.add("hidden");  
   document.getElementById("mensaje-aclaratorio").classList.add("hidden");
   document.getElementById("formulario_No_Comunitario").classList.remove("hidden");
+  document.getElementById("avatarLive2D").classList.add("hidden");
 }
 
 function mostrarResultado(data) {
@@ -395,4 +407,31 @@ if (seleccionados.length === 1) {
 document.getElementById("search-box").value = conceptoBusqueda;
 buscar();
 ocultarSugerencias();
+}
+
+function iniciarAvatarLive2D() {
+  const canvas = document.getElementById("live2dCanvas");
+  const app = new PIXI.Application({
+    view: canvas,
+    autoStart: true,
+    resizeTo: canvas,
+    backgroundAlpha: 0
+  });
+
+  const modelPath = "modelo010925_2/modelo010925_2.model3.json"; // Ajusta la ruta si es necesario
+
+  PIXI.live2d.Live2DModel.from(modelPath).then(model => {
+    model.scale.set(0.25);
+    model.x = (canvas.clientWidth - model.width * model.scale.x) / 2;
+    model.y = (canvas.clientHeight - model.height * model.scale.y) / 2;
+    app.stage.addChild(model);
+
+    // Estado inicial
+    model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0);
+    model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 0.0);
+    model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", -1.0);
+
+    // Parpadeo y habla (puedes copiar aquí tu lógica completa si quieres)
+    // ...
+  }).catch(err => console.error("Error cargando modelo:", err));
 }
