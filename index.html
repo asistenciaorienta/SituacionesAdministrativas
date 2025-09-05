@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <title>Formulario Unificado</title>
     <link rel="stylesheet" href="style.css?v=1.0">
+    <!-- PIXI.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.3.12/pixi.min.js"></script>
+    <!-- Live2D Cubism Core -->
+    <script src="libs/Core/live2dcubismcore.min.js"></script>
+    <!-- pixi-live2d-display con soporte Cubism 4 -->
+    <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.4.0/dist/cubism4.min.js"></script>
   </head>
   <body>
     <!-- Diseño e idea original de la Dirección Provincial de Granada, en concreto de:
@@ -112,7 +118,12 @@
     <!-- Imagen del manual -->
     <div id="manual" class="hidden">
       <h2>Consulta el manual</h2>
-      <!-- Contenedor del avatar ------------------------------------------------------------------------------------------->
+      
+      <!-- Contenedor del avatar Live2D -->
+      <div id="avatarLive2D" class="hidden" style="position:relative; width:100%; height:400px; overflow:hidden;">
+        <canvas id="live2dCanvas" style="width:100%; height:100%;"></canvas>
+      </div>
+      
       <img id="manualImg" src="" alt="Manual">
       <br>
       <button class="btn" onclick="mostrarFormulario()">Continuar</button> <br>
