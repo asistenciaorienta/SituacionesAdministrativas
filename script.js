@@ -412,10 +412,11 @@ ocultarSugerencias();
 function iniciarAvatarLive2D() {
   const canvas = document.getElementById("live2dCanvas");
   const app = new PIXI.Application({
-    view: canvas,
+    view: document.createElement("canvas"),
     autoStart: true,
-    resizeTo: canvas,
-    backgroundAlpha: 0
+    resizeTo: window,
+    backgroundAlpha: 0,
+    backgroundColor: 0x000000
   });
 
   const modelPath = "modelo010925_2/modelo010925_2.model3.json"; // Ajusta la ruta si es necesario
