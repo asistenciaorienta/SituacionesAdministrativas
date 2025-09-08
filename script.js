@@ -1,5 +1,7 @@
+let vozElegida = null;
 window.speechSynthesis.onvoiceschanged = () => {
-  // Las voces ya están disponibles
+  const voces = speechSynthesis.getVoices();
+  vozElegida = voces.find(v => v.name.includes("Pablo") && v.lang === "es-ES");
 };
 
 window.onload = function() {
@@ -276,13 +278,11 @@ function moverAvatar(top, left) {
 function hablarAvatar(texto) {
   const speech = new SpeechSynthesisUtterance(texto);
   speech.lang = "es-ES";
-  // Obtener la voz deseada
-  const voces = speechSynthesis.getVoices();
-  const vozElvira = voces.find(v => v.name.includes("Pablo") && v.lang === "es-ES");
-  if (vozElvira) {
-    speech.voice = vozElvira;
+ 
+   if (vozElegida) {
+    speech.voice = vozElegida;
   } else {
-    console.warn("No se encontró la voz Microsoft Elvira. Usando la predeterminada.");
+    console.warn("No se encontró la voz Elegida. Usando la predeterminada.");
   }  
   speech.onstart = () => {
     if (window.avatarTalking) window.avatarTalking();
