@@ -412,9 +412,9 @@ ocultarSugerencias();
 function iniciarAvatarLive2D() {
   const canvas = document.getElementById("live2dCanvas");
   const app = new PIXI.Application({
-    view: document.createElement("canvas"),
+    view: canvas,
     autoStart: true,
-    resizeTo: window,
+    resizeTo: canvas,
     backgroundAlpha: 0,
     backgroundColor: 0x000000
   });
