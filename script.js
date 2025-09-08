@@ -641,3 +641,17 @@ function iniciarAvatarLive2D() {
     window.avatarSilencio = () => { talking = false; };
     }).catch(err => console.error("Error cargando modelo:", err));
 }
+function escribirTextoLento(texto, velocidad = 40) { //Puedes ajustar la velocidad: 40 ms por letra es fluido, 20 es rápido, 80 es pausado.
+  const contenedor = document.getElementById("textoAvatar");
+  contenedor.textContent = ""; // Limpiar contenido previo
+
+  let i = 0;
+  const intervalo = setInterval(() => {
+    contenedor.textContent += texto.charAt(i);
+    i++;
+    if (i >= texto.length) {
+      clearInterval(intervalo);
+    }
+  }, velocidad);
+  contenedor.classList.remove("escribiendo"); // si usas una clase para controlar el cursor
+}
