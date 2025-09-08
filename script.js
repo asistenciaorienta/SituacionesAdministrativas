@@ -470,11 +470,19 @@ function iniciarAvatarLive2D() {
 
   const modelPath = "modelo010925_2/modelo010925_2.model3.json"; // Ajusta la ruta si es necesario
 
+//  PIXI.live2d.Live2DModel.from(modelPath).then(model => {
+//    model.scale.set(0.25);
+//    model.x = (canvas.clientWidth - model.width * model.scale.x) / 2;
+//    model.y = (canvas.clientHeight - model.height * model.scale.y) / 2;
+//    app.stage.addChild(model);
+
   PIXI.live2d.Live2DModel.from(modelPath).then(model => {
-    model.scale.set(0.25);
-    model.x = (canvas.clientWidth - model.width * model.scale.x) / 2;
-    model.y = (canvas.clientHeight - model.height * model.scale.y) / 2;
+    model.scale.set(0.15); // Ajusta según el tamaño real del modelo
+    model.anchor.set(0.5); // Centra el modelo
+    model.x = app.renderer.width / 2;
+    model.y = app.renderer.height / 2;
     app.stage.addChild(model);
+
 
     // Estado inicial
     model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0);
