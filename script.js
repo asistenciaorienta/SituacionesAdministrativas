@@ -234,10 +234,10 @@ function mostrarManual(tipo) {
   avatar.classList.remove("hidden");
 
   // Iniciar Live2D si no está iniciado
-  if (!window.avatarIniciado) {
+ // if (!window.avatarIniciado) {
     iniciarAvatarLive2D(); // Tu función existente
     window.avatarIniciado = true;
-  }
+  //}
 
   // Mostrar texto explicativo
   const texto = document.getElementById("textoAvatar");
