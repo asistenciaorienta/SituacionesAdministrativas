@@ -464,8 +464,11 @@ function iniciarAvatarLive2D() {
   const app = new PIXI.Application({
     view: canvas,
     autoStart: true,
-    resizeTo: canvas,
-    backgroundAlpha: 0
+    //resizeTo: canvas,
+    width: 300,
+    height: 400,
+    //backgroundAlpha: 0
+    transparent: true
   });
 
   const modelPath = "modelo010925_2/modelo010925_2.model3.json"; // Ajusta la ruta si es necesario
