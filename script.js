@@ -308,7 +308,7 @@ function volverNoComunitario() {
   document.getElementById("manual").classList.add("hidden");  
   document.getElementById("mensaje-aclaratorio").classList.add("hidden");
   document.getElementById("formulario_No_Comunitario").classList.remove("hidden");
-  document.getElementById("avatarLive2D").classList.add("hidden");
+  //document.getElementById("avatarLive2D").classList.add("hidden");
   document.getElementById("avatarFlotante").classList.add("hidden");
 }
 
