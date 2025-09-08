@@ -575,5 +575,5 @@ function iniciarAvatarLive2D() {
     window.avatarModel = model;
     window.avatarTalking = () => { talking = true; };
     window.avatarSilencio = () => { talking = false; };
-    });.catch(err => console.error("Error cargando modelo:", err));
+    }).catch(err => console.error("Error cargando modelo:", err));
 }
