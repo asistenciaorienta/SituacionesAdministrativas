@@ -2,6 +2,10 @@ window.speechSynthesis.onvoiceschanged = () => {
   // Las voces ya están disponibles
 };
 
+window.onload = function() {
+  alert("Versión 2.11");
+};
+
 const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxigLGGauWCphFL95VD5R0mWm5mM65_wuq5KhwWxyZmM8I8h5pJQ-nKzJ5u6DqpNJTvaw/exec";
 function ayuda() {
   window.open("https://www.tupagina.com", "_blank");
@@ -274,7 +278,7 @@ function hablarAvatar(texto) {
   speech.lang = "es-ES";
   // Obtener la voz deseada
   const voces = speechSynthesis.getVoices();
-  const vozElvira = voces.find(v => v.name.includes("Helena") && v.lang === "es-ES");
+  const vozElvira = voces.find(v => v.name.includes("Pablo") && v.lang === "es-ES");
   if (vozElvira) {
     speech.voice = vozElvira;
   } else {
