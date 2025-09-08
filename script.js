@@ -1,3 +1,7 @@
+window.speechSynthesis.onvoiceschanged = () => {
+  // Las voces ya están disponibles
+};
+
 const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxigLGGauWCphFL95VD5R0mWm5mM65_wuq5KhwWxyZmM8I8h5pJQ-nKzJ5u6DqpNJTvaw/exec";
 function ayuda() {
   window.open("https://www.tupagina.com", "_blank");
