@@ -526,17 +526,14 @@ ocultarSugerencias();
 }
 
 function iniciarAvatarLive2D() {
-  const canvas = document.getElementById("live2dCanvas");
-  const app = new PIXI.Application({
-    view: canvas,
-    autoStart: true,
-    resizeTo: canvas,
-    //width: 300,
-    //height: 400,
-    //backgroundAlpha: 0
-    transparent: true
+  return new Promise((resolve, reject) => {
+    const canvas = document.getElementById("live2dCanvas");
+    const app = new PIXI.Application({
+      view: canvas,
+      autoStart: true,
+      resizeTo: canvas,
+      transparent: true
   });
-
   const modelPath = "modelo010925_2/modelo010925_2.model3.json"; // Ajusta la ruta si es necesario
   let nextBlink = Date.now() + (2000 + Math.random() * 3000);
   let blinking = false;
@@ -637,21 +634,9 @@ function iniciarAvatarLive2D() {
     window.avatarModel = model;
     window.avatarTalking = () => { talking = true; };
     window.avatarSilencio = () => { talking = false; };
-    }).catch(err => console.error("Error cargando modelo:", err));
-}
-function escribirTextoLento(texto, velocidad = 40) { //Puedes ajustar la velocidad: 40 ms por letra es fluido, 20 es rápido, 80 es pausado.
-  const contenedor = document.getElementById("textoAvatar");
-  contenedor.textContent = ""; // Limpiar contenido previo
-
-  let i = 0;
-  const intervalo = setInterval(() => {
-    contenedor.textContent += texto.charAt(i);
-    i++;
-    if (i >= texto.length) {
-      clearInterval(intervalo);
-    }
-  }, velocidad);
-  contenedor.classList.remove("escribiendo"); // si usas una clase para controlar el cursor
+    }).catch(err => console.error("Error al cargar el   modelo:", err));
+      reject(err);
+    });
 }
 
 function hablarYEscribir(texto) {
