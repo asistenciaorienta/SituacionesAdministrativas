@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.17");
+  alert("Versión 2.19");
 };
 
 // Obtener la voz deseada
@@ -261,23 +261,6 @@ function mostrarFormularioNoComunitario() {
   document.getElementById("titulo").classList.add("hidden");
 }
 
-//function mostrarManual(tipo) {
-//  localStorage.setItem("tipoDocumento", tipo);        
-//  document.getElementById("formulario_No_Comunitario").classList.add("hidden"); 
-//  document.getElementById("manualImg").src = urls[tipo];
-//  document.getElementById("manual").classList.remove("hidden");
-
-  // Mostrar avatar Live2D
-//  const avatarDiv = document.getElementById("avatarLive2D");
-//  avatarDiv.classList.remove("hidden");
-
-  // Solo iniciar una vez
-//  if (!window.avatarIniciado) {
-//    iniciarAvatarLive2D();
-//    window.avatarIniciado = true;
-//  }
-//}
-
 async function mostrarManual(tipo) {
   localStorage.setItem("tipoDocumento", tipo);        
   document.getElementById("formulario_No_Comunitario").classList.add("hidden"); 
@@ -318,7 +301,6 @@ async function mostrarManual(tipo) {
       break;
   }
   texto.textContent = mensaje;
-  //hablarAvatar(mensaje); // Si usas SpeechSynthesis
   hablarYEscribir(mensaje);
 }
 
@@ -640,6 +622,7 @@ function iniciarAvatarLive2D() {
     window.avatarModel = model;
     window.avatarTalking = () => { talking = true; };
     window.avatarSilencio = () => { talking = false; };
+    resolve();
     }).catch(err => console.error("Error al cargar el   modelo:", err));
       reject(err);
     });
