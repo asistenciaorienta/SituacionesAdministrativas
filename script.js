@@ -623,7 +623,7 @@ function iniciarAvatarLive2D() {
     window.avatarTalking = () => { talking = true; };
     window.avatarSilencio = () => { talking = false; };
     resolve();
-    })catch(err => {
+    }).catch(err => {
         console.error("Error al cargar el modelo:", err);
         reject(err);
       }
