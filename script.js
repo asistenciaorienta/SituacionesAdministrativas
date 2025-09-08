@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.16");
+  alert("Versión 2.17");
 };
 
 // Obtener la voz deseada
@@ -278,7 +278,7 @@ function mostrarFormularioNoComunitario() {
 //  }
 //}
 
-function mostrarManual(tipo) {
+async function mostrarManual(tipo) {
   localStorage.setItem("tipoDocumento", tipo);        
   document.getElementById("formulario_No_Comunitario").classList.add("hidden"); 
   document.getElementById("manualImg").src = urls[tipo];
