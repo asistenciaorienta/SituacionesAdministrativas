@@ -39,7 +39,7 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
   speechSynthesis.onvoiceschanged = cargarVoces;
 }
 document.getElementById("btnEscucharMuestra").addEventListener("click", () => {
-  const muestra = new SpeechSynthesisUtterance("Hola, soy tu guía virtual. ¿Me escuchas bien?");
+  const muestra = new SpeechSynthesisUtterance("Hola, soy tu guía virtual. ¿Me escuchas bien?. ¡Perfecto!.");
   muestra.lang = "es-ES";
 
   if (vozSeleccionada) {
