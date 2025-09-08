@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.22");
+  alert("Versión 2.23");
 };
 
 // Obtener la voz deseada
@@ -626,7 +626,7 @@ function iniciarAvatarLive2D() {
     }).catch(err => {
         console.error("Error al cargar el modelo:", err);
         reject(err);
-      }
+      };
     });
 }
 
