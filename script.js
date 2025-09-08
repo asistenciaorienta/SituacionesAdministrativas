@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.20");
+  alert("Versión 2.21");
 };
 
 // Obtener la voz deseada
@@ -624,11 +624,14 @@ function iniciarAvatarLive2D() {
     window.avatarSilencio = () => { talking = false; };
     resolve();
     })catch(err => {
-      console.error("Error al cargar el modelo:", err);
-      reject(err);
+        console.error("Error al cargar el modelo:", err);
+        reject(err);
+      }
     });
 }
+.catch(err => console.error("Error al cargar el modelo:", err)); reject(err); });
 
+                     
 function hablarYEscribir(texto) {
   const speech = new SpeechSynthesisUtterance(texto);
   speech.lang = "es-ES";
