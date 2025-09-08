@@ -420,4 +420,10 @@ img {
   right: 10px;
   z-index: 1000; /* Asegura que esté por encima de otros elementos */
 }
+#avatarFlotante {
+  position: absolute;
+  top: 100px;
+  left: 50px;
+  transition: top 1s ease, left 1s ease;
+}
 
