@@ -629,7 +629,7 @@ function iniciarAvatarLive2D() {
       }
     });
 }
-.catch(err => console.error("Error al cargar el modelo:", err)); reject(err); });
+
 
                      
 function hablarYEscribir(texto) {
