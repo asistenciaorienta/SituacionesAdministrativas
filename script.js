@@ -268,6 +268,14 @@ function moverAvatar(top, left) {
 function hablarAvatar(texto) {
   const speech = new SpeechSynthesisUtterance(texto);
   speech.lang = "es-ES";
+  // Obtener la voz deseada
+  const voces = speechSynthesis.getVoices();
+  const vozElvira = voces.find(v => v.name.includes("Elvira") && v.lang === "es-ES");
+  if (vozElvira) {
+    speech.voice = vozElvira;
+  } else {
+    console.warn("No se encontró la voz Microsoft Elvira. Usando la predeterminada.");
+  }  
   speech.onstart = () => {
     if (window.avatarTalking) window.avatarTalking();
   };
