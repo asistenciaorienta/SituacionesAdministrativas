@@ -4,6 +4,53 @@ window.speechSynthesis.onvoiceschanged = () => {
   const voces = speechSynthesis.getVoices();
   vozElegida = voces.find(v => v.name.includes("Pablo") && v.lang === "es-ES");
 };
+let vozSeleccionada = null;
+
+function cargarVoces() {
+  const selector = document.getElementById("vozSelector");
+  selector.innerHTML = ""; // Limpiar opciones previas
+
+  const voces = speechSynthesis.getVoices().filter(v => v.lang === "es-ES");
+
+  voces.forEach(voz => {
+    const opcion = document.createElement("option");
+    opcion.value = voz.name;
+    opcion.textContent = voz.name;
+    selector.appendChild(opcion);
+  });
+
+  // Si hay una voz guardada en localStorage, seleccionarla
+  const guardada = localStorage.getItem("vozAvatar");
+  if (guardada) {
+    selector.value = guardada;
+    vozSeleccionada = voces.find(v => v.name === guardada);
+  } else {
+    vozSeleccionada = voces[0]; // Por defecto, la primera
+  }
+
+  selector.addEventListener("change", () => {
+    vozSeleccionada = voces.find(v => v.name === selector.value);
+    localStorage.setItem("vozAvatar", selector.value);
+  });
+}
+
+// Esperar a que las voces estén disponibles
+if (speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = cargarVoces;
+}
+document.getElementById("btnEscucharMuestra").addEventListener("click", () => {
+  const muestra = new SpeechSynthesisUtterance("Hola, soy tu guía virtual. ¿Me escuchas bien?");
+  muestra.lang = "es-ES";
+
+  if (vozSeleccionada) {
+    muestra.voice = vozSeleccionada;
+  }
+
+  window.speechSynthesis.speak(muestra);
+});
+
+
+
 
 window.onload = function() {
   alert("Versión 2.12");
@@ -280,8 +327,8 @@ function hablarAvatar(texto) {
   const speech = new SpeechSynthesisUtterance(texto);
   speech.lang = "es-ES";
  
-   if (vozElegida) {
-    speech.voice = vozElegida;
+  if (vozSeleccionada) {
+    speech.voice = vozSeleccionada;
   } else {
     console.warn("No se encontró la voz Elegida. Usando la predeterminada.");
   }  
