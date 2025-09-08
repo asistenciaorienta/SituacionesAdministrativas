@@ -245,7 +245,7 @@ function mostrarManual(tipo) {
   switch (tipo) {
     case "TIE":
       mensaje = "Este es el procedimiento para una TIE en vigor. Asegúrate de tener todos los documentos.";
-      moverAvatar(100, 50);
+      moverAvatar(100, 100);
       break;
     case "Documento":
       mensaje = "Con una resolución en vigor, estos son los pasos que debes seguir.";
