@@ -1,3 +1,4 @@
+// Obtener la voz deseada
 let vozElegida = null;
 window.speechSynthesis.onvoiceschanged = () => {
   const voces = speechSynthesis.getVoices();
@@ -5,7 +6,7 @@ window.speechSynthesis.onvoiceschanged = () => {
 };
 
 window.onload = function() {
-  alert("Versión 2.11");
+  alert("Versión 2.12");
 };
 
 const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxigLGGauWCphFL95VD5R0mWm5mM65_wuq5KhwWxyZmM8I8h5pJQ-nKzJ5u6DqpNJTvaw/exec";
