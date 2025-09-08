@@ -206,22 +206,71 @@ function mostrarFormularioNoComunitario() {
   document.getElementById("titulo").classList.add("hidden");
 }
 
+//function mostrarManual(tipo) {
+//  localStorage.setItem("tipoDocumento", tipo);        
+//  document.getElementById("formulario_No_Comunitario").classList.add("hidden"); 
+//  document.getElementById("manualImg").src = urls[tipo];
+//  document.getElementById("manual").classList.remove("hidden");
+
+  // Mostrar avatar Live2D
+//  const avatarDiv = document.getElementById("avatarLive2D");
+//  avatarDiv.classList.remove("hidden");
+
+  // Solo iniciar una vez
+//  if (!window.avatarIniciado) {
+//    iniciarAvatarLive2D();
+//    window.avatarIniciado = true;
+//  }
+//}
+
 function mostrarManual(tipo) {
   localStorage.setItem("tipoDocumento", tipo);        
   document.getElementById("formulario_No_Comunitario").classList.add("hidden"); 
   document.getElementById("manualImg").src = urls[tipo];
   document.getElementById("manual").classList.remove("hidden");
 
-  // Mostrar avatar Live2D
-  const avatarDiv = document.getElementById("avatarLive2D");
-  avatarDiv.classList.remove("hidden");
+  // Mostrar avatar flotante
+  const avatar = document.getElementById("avatarFlotante");
+  avatar.classList.remove("hidden");
 
-  // Solo iniciar una vez
+  // Iniciar Live2D si no está iniciado
   if (!window.avatarIniciado) {
-    iniciarAvatarLive2D();
+    iniciarAvatarLive2D(); // Tu función existente
     window.avatarIniciado = true;
   }
+
+  // Mostrar texto explicativo
+  const texto = document.getElementById("textoAvatar");
+  let mensaje = "";
+  switch (tipo) {
+    case "TIE":
+      mensaje = "Este es el procedimiento para una TIE en vigor. Asegúrate de tener todos los documentos.";
+      moverAvatar(100, 50);
+      break;
+    case "Documento":
+      mensaje = "Con una resolución en vigor, estos son los pasos que debes seguir.";
+      moverAvatar(200, 100);
+      break;
+    case "Tarjeta Roja":
+      mensaje = "La Tarjeta Roja permite ciertos trámites. Aquí te explico cómo proceder.";
+      moverAvatar(150, 200);
+      break;
+  }
+  texto.textContent = mensaje;
+  hablarAvatar(mensaje); // Si usas SpeechSynthesis
 }
+
+function moverAvatar(top, left) {
+  const avatar = document.getElementById("avatarFlotante");
+  avatar.style.top = `${top}px`;
+  avatar.style.left = `${left}px`;
+}
+function hablarAvatar(texto) {
+  const speech = new SpeechSynthesisUtterance(texto);
+  speech.lang = "es-ES";
+  window.speechSynthesis.speak(speech);
+}
+
 
 
 function mostrarFormulario() {
@@ -256,6 +305,7 @@ function volverNoComunitario() {
   document.getElementById("mensaje-aclaratorio").classList.add("hidden");
   document.getElementById("formulario_No_Comunitario").classList.remove("hidden");
   document.getElementById("avatarLive2D").classList.add("hidden");
+  document.getElementById("avatarFlotante").classList.add("hidden");
 }
 
 function mostrarResultado(data) {
