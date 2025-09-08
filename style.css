@@ -440,3 +440,16 @@ canvas {
   background: transparent !important;
   display: block;
 }
+#textoAvatar {
+  position: absolute;
+  top: 10px;
+  left: 310px;
+  background-color: #222; /* Fondo oscuro */
+  color: #fff;            /* Texto blanco */
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 1em;
+  max-width: 300px;
+  z-index: 10;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Sombra para profundidad */
+}
