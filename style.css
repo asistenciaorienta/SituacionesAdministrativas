@@ -442,8 +442,8 @@ canvas {
 }
 #textoAvatar {
   position: absolute;
-  top: 10px;
-  left: 310px;
+  top: 410px; /* justo debajo del canvas (400px de alto + margen) */
+  left: 0px;
   background-color: #222; /* Fondo oscuro */
   color: #fff;            /* Texto blanco */
   padding: 10px;
@@ -453,3 +453,21 @@ canvas {
   z-index: 10;
   box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Sombra para profundidad */
 }
+#textoAvatar::after {
+  content: "|";
+  animation: blink 1s infinite;
+}
+#textoAvatar::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent #222 transparent;
+}
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
