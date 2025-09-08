@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.24");
+  alert("Versión 2.25");
 };
 
 // Obtener la voz deseada
@@ -205,10 +205,8 @@ function evaluarDocumento() {
     mostrarModal("Selecciona una opción.");
     return;
   }
-
   const valorPrincipal = seleccionPrincipal.value;
   let subValor = null;
-
   // Detectar subvalor según el documento principal
   if (valorPrincipal === "TIE") {
     subValor = document.querySelector('input[name="estado-TIE"]:checked')?.value;
@@ -219,12 +217,10 @@ function evaluarDocumento() {
   } else if (valorPrincipal === "NIE") {
     subValor = document.querySelector('input[name="estado-NIE"]:checked')?.value;
   }
-
   if (!subValor) {
     mostrarModal("Selecciona una sub-opción.");
     return;
   }
-
   // Mostrar manual si está en vigor
   if (valorPrincipal === "TIE" && subValor === "En Vigor") {
     mostrarManual("TIE");
@@ -276,6 +272,10 @@ async function mostrarManual(tipo) {
     await iniciarAvatarLive2D();
     window.avatarIniciado = true;
   } 
+  else {
+    iniciarAvatarLive2D();
+    window.avatarIniciado = true;
+  }
   
   // Iniciar Live2D si no está iniciado
  // if (!window.avatarIniciado) {
@@ -563,7 +563,6 @@ function iniciarAvatarLive2D() {
 
   app.ticker.add(() => {
       const now = Date.now();
-
       // Parpadeo
       if (!blinking && now >= nextBlink) {
         blinking = true;
@@ -585,23 +584,19 @@ function iniciarAvatarLive2D() {
           nextBlink = now + (2000 + Math.random() * 3000);
         }
       }
-
       // Habla
       if (talking) {
         model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 1.0);
-
         if (now >= nextMouthChange) {
           mouthSpeed = (Math.random() * 0.15) + 0.05;
           if (Math.random() < 0.5) mouthSpeed *= -1;
           nextMouthChange = now + (200 + Math.random() * 700);
-
           const base = (Math.random() * 2 - 1) * 60;
           const tilt = (Math.random() * 2 - 1) * 20;
           browTargetLeft = base + tilt;
           browTargetRight = base - tilt;
           nextBrowChange = now + (600 + Math.random() * 800);
         }
-
         mouthValue += mouthSpeed;
         if (mouthValue > 1) { mouthValue = 1; mouthSpeed *= -1; }
         if (mouthValue < -1) { mouthValue = -1; mouthSpeed *= -1; }
