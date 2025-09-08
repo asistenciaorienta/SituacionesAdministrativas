@@ -268,10 +268,14 @@ function moverAvatar(top, left) {
 function hablarAvatar(texto) {
   const speech = new SpeechSynthesisUtterance(texto);
   speech.lang = "es-ES";
+  speech.onstart = () => {
+    if (window.avatarTalking) window.avatarTalking();
+  };
+  speech.onend = () => {
+    if (window.avatarSilencio) window.avatarSilencio();
+  };
   window.speechSynthesis.speak(speech);
 }
-
-
 
 function mostrarFormulario() {
   document.getElementById("manual").classList.add("hidden");
@@ -472,7 +476,24 @@ function iniciarAvatarLive2D() {
   });
 
   const modelPath = "modelo010925_2/modelo010925_2.model3.json"; // Ajusta la ruta si es necesario
+  let nextBlink = Date.now() + (2000 + Math.random() * 3000);
+  let blinking = false;
+  let blinkStep = 0;
 
+  let talking = false;
+  let mouthValue = -1;
+  let mouthSpeed = 0.08;
+  let nextMouthChange = Date.now() + 500;
+
+  const paramBrowLeft = "ParametroCejaIzquierda";
+  const paramBrowRight = "ParametroCejaDerecha";
+  let browLeft = 0, browRight = 0;
+  let browTargetLeft = 0, browTargetRight = 0;
+  let nextBrowChange = Date.now() + 600;
+  const browLerp = 0.05;
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  
 //  PIXI.live2d.Live2DModel.from(modelPath).then(model => {
 //    model.scale.set(0.25);
 //    model.x = (canvas.clientWidth - model.width * model.scale.x) / 2;
@@ -486,13 +507,73 @@ function iniciarAvatarLive2D() {
     model.y = app.renderer.height / 2;
     app.stage.addChild(model);
 
-
     // Estado inicial
     model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0);
+    model.internalModel.coreModel.setParameterValueById("ParametroAtencion", -30.0);
+    model.internalModel.coreModel.setParameterValueById("Parametromoverpierna", -30.0);
     model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 0.0);
     model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", -1.0);
 
-    // Parpadeo y habla (puedes copiar aquí tu lógica completa si quieres)
-    // ...
-  }).catch(err => console.error("Error cargando modelo:", err));
+  app.ticker.add(() => {
+      const now = Date.now();
+
+      // Parpadeo
+      if (!blinking && now >= nextBlink) {
+        blinking = true;
+        blinkStep = 1;
+        nextBlink = now + 50;
+        model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0.5);
+      } else if (blinking && now >= nextBlink) {
+        if (blinkStep === 1) {
+          blinkStep = 2;
+          nextBlink = now + 50;
+          model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 1);
+        } else if (blinkStep === 2) {
+          blinkStep = 3;
+          nextBlink = now + 50;
+          model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0);
+        } else {
+          blinking = false;
+          blinkStep = 0;
+          nextBlink = now + (2000 + Math.random() * 3000);
+        }
+      }
+
+      // Habla
+      if (talking) {
+        model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 1.0);
+
+        if (now >= nextMouthChange) {
+          mouthSpeed = (Math.random() * 0.15) + 0.05;
+          if (Math.random() < 0.5) mouthSpeed *= -1;
+          nextMouthChange = now + (200 + Math.random() * 700);
+
+          const base = (Math.random() * 2 - 1) * 60;
+          const tilt = (Math.random() * 2 - 1) * 20;
+          browTargetLeft = base + tilt;
+          browTargetRight = base - tilt;
+          nextBrowChange = now + (600 + Math.random() * 800);
+        }
+
+        mouthValue += mouthSpeed;
+        if (mouthValue > 1) { mouthValue = 1; mouthSpeed *= -1; }
+        if (mouthValue < -1) { mouthValue = -1; mouthSpeed *= -1; }
+        model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", mouthValue);
+      } else {
+        model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", -1.0);
+        model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 0.0);
+        browTargetLeft = 0;
+        browTargetRight = 0;
+      }
+
+      browLeft = lerp(browLeft, browTargetLeft, browLerp);
+      browRight = lerp(browRight, browTargetRight, browLerp);
+      model.internalModel.coreModel.setParameterValueById(paramBrowLeft, browLeft);
+      model.internalModel.coreModel.setParameterValueById(paramBrowRight, browRight);
+    });
+    // Guardar referencia global para control externo
+    window.avatarModel = model;
+    window.avatarTalking = () => { talking = true; };
+    window.avatarSilencio = () => { talking = false; };
+    });.catch(err => console.error("Error cargando modelo:", err));
 }
