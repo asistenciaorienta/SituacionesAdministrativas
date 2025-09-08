@@ -442,7 +442,7 @@ canvas {
 }
 #textoAvatar {
   position: absolute;
-  top: 310px; /* justo debajo del canvas (400px de alto + margen) */
+  top: 2600px; /* justo debajo del canvas (400px de alto + margen) */
   left: 0px;
   background-color: #222; /* Fondo oscuro */
   color: #fff;            /* Texto blanco */
