@@ -288,10 +288,16 @@ function mostrarManual(tipo) {
   const avatar = document.getElementById("avatarFlotante");
   avatar.classList.remove("hidden");
 
+  // Esperar a que el avatar se cargue
+  if (!window.avatarIniciado) {
+    await iniciarAvatarLive2D();
+    window.avatarIniciado = true;
+  } 
+  
   // Iniciar Live2D si no está iniciado
  // if (!window.avatarIniciado) {
-    iniciarAvatarLive2D(); // Tu función existente
-    window.avatarIniciado = true;
+ //   iniciarAvatarLive2D(); // Tu función existente
+   // window.avatarIniciado = true;
   //}
 
   // Mostrar texto explicativo
