@@ -312,7 +312,8 @@ function mostrarManual(tipo) {
       break;
   }
   texto.textContent = mensaje;
-  hablarAvatar(mensaje); // Si usas SpeechSynthesis
+  //hablarAvatar(mensaje); // Si usas SpeechSynthesis
+  hablarYEscribir(mensaje);
 }
 
 function moverAvatar(top, left) {
@@ -652,3 +653,43 @@ function escribirTextoLento(texto, velocidad = 40) { //Puedes ajustar la velocid
   }, velocidad);
   contenedor.classList.remove("escribiendo"); // si usas una clase para controlar el cursor
 }
+
+function hablarYEscribir(texto) {
+  const speech = new SpeechSynthesisUtterance(texto);
+  speech.lang = "es-ES";
+  if (vozSeleccionada) speech.voice = vozSeleccionada;
+
+  const contenedor = document.getElementById("textoAvatar");
+  contenedor.textContent = "";
+
+  // Fragmentar texto por palabras
+  //const palabras = texto.split(" "); //mostrar palabras
+  const letras = texto.split("");  //mostrar letras
+  let i = 0;
+
+  // Mostrar palabra por palabra
+  //const intervalo = setInterval(() => {
+  //  contenedor.textContent += palabras[i] + " ";
+  //  i++;
+  //  if (i >= palabras.length) clearInterval(intervalo);
+  //}, 300); // Ajusta el ritmo aquí (300ms por palabra es fluido)
+
+  // Mostrar letra por letra
+  const intervalo = setInterval(() => {
+    contenedor.textContent += letras[i];
+    i++;
+    if (i >= letras.length) clearInterval(intervalo);
+  }, 50); // velocidad por letra
+
+  // Activar movimiento de boca
+  speech.onstart = () => {
+    if (window.avatarTalking) window.avatarTalking();
+  };
+  speech.onend = () => {
+    if (window.avatarSilencio) window.avatarSilencio();
+  };
+  window.speechSynthesis.speak(speech);
+}
+
+
+
