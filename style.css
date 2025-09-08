@@ -426,4 +426,7 @@ img {
   left: 50px;
   transition: top 1s ease, left 1s ease;
 }
+canvas {
+  background: transparent !important;
+}
 
