@@ -270,7 +270,7 @@ function hablarAvatar(texto) {
   speech.lang = "es-ES";
   // Obtener la voz deseada
   const voces = speechSynthesis.getVoices();
-  const vozElvira = voces.find(v => v.name.includes("Elvira") && v.lang === "es-ES");
+  const vozElvira = voces.find(v => v.name.includes("Helena") && v.lang === "es-ES");
   if (vozElvira) {
     speech.voice = vozElvira;
   } else {
