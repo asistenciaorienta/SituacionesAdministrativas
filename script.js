@@ -464,9 +464,9 @@ function iniciarAvatarLive2D() {
   const app = new PIXI.Application({
     view: canvas,
     autoStart: true,
-    //resizeTo: canvas,
-    width: 300,
-    height: 400,
+    resizeTo: canvas,
+    //width: 300,
+    //height: 400,
     //backgroundAlpha: 0
     transparent: true
   });
