@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.49");
+  alert("Versión 2.50");
 };
 
 // Obtener la voz deseada
@@ -642,23 +642,7 @@ async function presentarAvatar(tipo) {
   hablarYEscribir("¡Hola! Soy tu asistente virtual. ¿Necesitas ayuda con tu trámite?");
 
   setTimeout(() => {
-    const contenedor = document.getElementById("avatarFlotante");
-    const btnSi = document.createElement("button");
-    btnSi.textContent = "Sí";
-    btnSi.className = "burbujaRespuesta";
-    btnSi.style.top = "400px";
-    btnSi.style.left = "70px";
-    btnSi.onclick = () => responderAyuda(true);
-  
-    const btnNo = document.createElement("button");
-    btnNo.textContent = "No";
-    btnNo.className = "burbujaRespuesta";
-    btnNo.style.top = "400px";
-    btnNo.style.left = "170px";
-    btnNo.onclick = () => responderAyuda(false);
-  
-    contenedor.appendChild(btnSi);
-    contenedor.appendChild(btnNo);
+    mostrarBotonesAyuda()
   }, 2000); // Espera a que termine de hablar
 
   setTimeout(() => {  // Limpiar clase de animación para permitir futuras repeticiones
@@ -683,13 +667,11 @@ async function responderAyuda(necesitaAyuda) {
       hablarYEscribir("Ups, no tengo claro qué documento estás tramitando.");
     }
   } else {
-    // El usuario no quiere ayuda → eliminar solo el botón "No"
-    burbujas.forEach(burbuja => {
-      if (burbuja.textContent === "No") {
-        burbuja.remove();
-      }
-    });
+    // El usuario no quiere ayuda → eliminar botones y el avatar es reactivo a la pulsación
+    burbujas.forEach(burbuja => burbuja.remove()); // ✅ eliminar ambos
     hablarYEscribir("De acuerdo, si necesitas ayuda más adelante, estaré por aquí.");
+    // ✅ Activar modo reactivo
+    window.avatarReactivo = true;
   }
 }
 
@@ -733,3 +715,32 @@ document.addEventListener("DOMContentLoaded", () => {
   cargarVoces(); // ✅ Ejecutar directamente al cargar
 });
 
+document.getElementById("avatarFlotante").addEventListener("click", () => {
+  if (window.avatarReactivo) {
+    window.avatarReactivo = false; // ✅ desactivar para evitar repeticiones
+    hablarYEscribir("¿Quieres que te ayude con tu trámite?")
+      .then(() => {
+        mostrarBotonesAyuda(); // ✅ vuelve a mostrar “Sí” y “No”
+      });
+  }
+});
+
+function mostrarBotonesAyuda() {
+  const contenedor = document.getElementById("avatarFlotante");
+  const btnSi = document.createElement("button");
+  btnSi.textContent = "Sí";
+  btnSi.className = "burbujaRespuesta";
+  btnSi.style.top = "300px";
+  btnSi.style.left = "70px";
+  btnSi.onclick = () => responderAyuda(true);
+
+  const btnNo = document.createElement("button");
+  btnNo.textContent = "No";
+  btnNo.className = "burbujaRespuesta";
+  btnNo.style.top = "300px";
+  btnNo.style.left = "170px";
+  btnNo.onclick = () => responderAyuda(false);
+
+  contenedor.appendChild(btnSi);
+  contenedor.appendChild(btnNo);
+}
