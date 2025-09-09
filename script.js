@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.42");
+  alert("Versión 2.45");
 };
 
 // Obtener la voz deseada
@@ -55,6 +55,7 @@ document.getElementById("btnEscucharMuestra").addEventListener("click", () => {
 
 const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxigLGGauWCphFL95VD5R0mWm5mM65_wuq5KhwWxyZmM8I8h5pJQ-nKzJ5u6DqpNJTvaw/exec";
 function ayuda() {
+  detenerHablaAvatar(); // ✅ detener habla al pulsar
   window.open("https://www.tupagina.com", "_blank");
 }
 
@@ -305,6 +306,7 @@ function moverAvatar(top, left) {
   avatar.style.top = `${top}px`;
   avatar.style.left = `${left}px`;
 }
+
 function hablarAvatar(texto) {
   const speech = new SpeechSynthesisUtterance(texto);
   speech.lang = "es-ES";
@@ -324,6 +326,7 @@ function hablarAvatar(texto) {
 }
 
 function mostrarFormulario() {
+  detenerHablaAvatar(); // ✅ detener habla al pulsar
   document.getElementById("manual").classList.add("hidden");
   document.getElementById("formulario").classList.remove("hidden");
 }
@@ -334,6 +337,7 @@ function volverInicioDesdeFormulario() {
   document.getElementById("buscarBtn").classList.remove("hidden");
 }
 function volverInicio() {
+  detenerHablaAvatar(); // ✅ detener habla al pulsar
   document.getElementById("nacionalidad-page").classList.remove("hidden");
   document.getElementById("titulo").classList.remove("hidden");
   document.getElementById("formulario").classList.add("hidden");
@@ -351,10 +355,10 @@ function volverNacionalidad() {
 }
 
 function volverNoComunitario() {
+  detenerHablaAvatar(); // ✅ detener habla al pulsar
   document.getElementById("manual").classList.add("hidden");  
   document.getElementById("mensaje-aclaratorio").classList.add("hidden");
   document.getElementById("formulario_No_Comunitario").classList.remove("hidden");
-  //document.getElementById("avatarLive2D").classList.add("hidden");
   document.getElementById("avatarFlotante").classList.add("hidden");
 }
 
@@ -536,12 +540,6 @@ function iniciarAvatarLive2D() {
   const browLerp = 0.05;
 
   function lerp(a, b, t) { return a + (b - a) * t; }
-  
-//  PIXI.live2d.Live2DModel.from(modelPath).then(model => {
-//    model.scale.set(0.25);
-//    model.x = (canvas.clientWidth - model.width * model.scale.x) / 2;
-//    model.y = (canvas.clientHeight - model.height * model.scale.y) / 2;
-//    app.stage.addChild(model);
 
   PIXI.live2d.Live2DModel.from(modelPath).then(model => {
     model.scale.set(0.15); // Ajusta según el tamaño real del modelo
@@ -669,6 +667,7 @@ async function presentarAvatar(tipo) {
 }
 
 function responderAyuda(necesitaAyuda) {
+  detenerHablaAvatar(); // ✅ detener habla al pulsar
   const contenedor = document.getElementById("avatarFlotante");
   const burbujas = contenedor.querySelectorAll(".burbujaRespuesta");
 
@@ -689,7 +688,6 @@ function responderAyuda(necesitaAyuda) {
   }
 }
 
-
 function hablarYEscribir(texto) {
   const speech = new SpeechSynthesisUtterance(texto);
   speech.lang = "es-ES";
@@ -698,25 +696,6 @@ function hablarYEscribir(texto) {
   const contenedor = document.getElementById("textoAvatar");
   contenedor.textContent = "";
 
-  // Fragmentar texto por palabras
-  //const palabras = texto.split(" "); //mostrar palabras
-  const letras = texto.split("");  //mostrar letras
-  let i = 0;
-
-  // Mostrar palabra por palabra
-  //const intervalo = setInterval(() => {
-  //  contenedor.textContent += palabras[i] + " ";
-  //  i++;
-  //  if (i >= palabras.length) clearInterval(intervalo);
-  //}, 300); // Ajusta el ritmo aquí (300ms por palabra es fluido)
-
-  // Mostrar letra por letra
-  const intervalo = setInterval(() => {
-    contenedor.textContent += letras[i];
-    i++;
-    if (i >= letras.length) clearInterval(intervalo);
-  }, 50); // velocidad por letra
-
   // Activar movimiento de boca
   speech.onstart = () => {
     if (window.avatarTalking) window.avatarTalking();
@@ -724,8 +703,20 @@ function hablarYEscribir(texto) {
   speech.onend = () => {
     if (window.avatarSilencio) window.avatarSilencio();
   };
+
+  // Iniciar habla inmediatamente
   window.speechSynthesis.speak(speech);
+
+  // Mostrar texto letra por letra en paralelo
+  const letras = texto.split("");
+  let i = 0;
+  const intervalo = setInterval(() => {
+    contenedor.textContent += letras[i];
+    i++;
+    if (i >= letras.length) clearInterval(intervalo);
+  }, 50); // velocidad por letra
 }
-
-
-
+function detenerHablaAvatar() {
+  window.speechSynthesis.cancel(); // ✅ Detiene cualquier discurso activo
+  if (window.avatarSilencio) window.avatarSilencio(); // ✅ Detiene animación de boca
+}
