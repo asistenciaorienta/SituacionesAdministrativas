@@ -422,7 +422,7 @@ img {
 }
 #avatarFlotante {
   background: transparent !important;  
-  position: absolute;
+  position: relative;  //absolute
   top: 100px;
   left: 50px;
   transition: top 1s ease, left 1s ease;
@@ -511,5 +511,35 @@ canvas {
 
 .botonRespuesta:hover {
   background-color: #005a9e;
+}
+.burbujaRespuesta {
+  position: absolute;
+  padding: 12px 20px;
+  border-radius: 30px;
+  background-color: #0078D4;
+  color: white;
+  font-size: 1em;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  animation: flotarBurbuja 0.6s ease-out;
+  transition: transform 0.3s, background-color 0.3s;
+  z-index: 10;
+}
+
+.burbujaRespuesta:hover {
+  background-color: #005a9e;
+  transform: scale(1.05);
+}
+
+@keyframes flotarBurbuja {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
