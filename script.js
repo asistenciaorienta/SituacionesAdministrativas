@@ -266,7 +266,7 @@ async function mostrarManual(tipo) {
   // Mostrar avatar flotante
   const avatar = document.getElementById("avatarFlotante");
   avatar.classList.remove("hidden");
-  avatar.classList.add("avatar-animado");
+  avatar.classList.add("avatar-rebote");
 
   // Esperar a que el avatar se cargue
   if (!window.avatarIniciado) {
