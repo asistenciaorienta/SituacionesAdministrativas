@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.47");
+  alert("Versión 2.48");
 };
 
 // Obtener la voz deseada
@@ -646,14 +646,14 @@ async function presentarAvatar(tipo) {
     const btnSi = document.createElement("button");
     btnSi.textContent = "Sí";
     btnSi.className = "burbujaRespuesta";
-    btnSi.style.top = "100px";
+    btnSi.style.top = "200px";
     btnSi.style.left = "70px";
     btnSi.onclick = () => responderAyuda(true);
   
     const btnNo = document.createElement("button");
     btnNo.textContent = "No";
     btnNo.className = "burbujaRespuesta";
-    btnNo.style.top = "100px";
+    btnNo.style.top = "200px";
     btnNo.style.left = "170px";
     btnNo.onclick = () => responderAyuda(false);
   
@@ -683,7 +683,12 @@ async function responderAyuda(necesitaAyuda) {
       hablarYEscribir("Ups, no tengo claro qué documento estás tramitando.");
     }
   } else {
-    // ❌ El usuario no quiere ayuda → mantener burbujas activas
+    // El usuario no quiere ayuda → eliminar solo el botón "No"
+    burbujas.forEach(burbuja => {
+      if (burbuja.textContent === "No") {
+        burbuja.remove();
+      }
+    });
     hablarYEscribir("De acuerdo, si necesitas ayuda más adelante, estaré por aquí.");
   }
 }
