@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.34");
+  alert("Versión 2.36");
 };
 
 // Obtener la voz deseada
@@ -223,11 +223,11 @@ function evaluarDocumento() {
   }
   // Mostrar manual si está en vigor
   if (valorPrincipal === "TIE" && subValor === "En Vigor") {
-    mostrarManual("TIE");
+    presentarAvatar("TIE");
   } else if (valorPrincipal === "Resolución" && subValor === "En Vigor") {
-    mostrarManual("Documento");
+    presentarAvatar("Documento");
   } else if (valorPrincipal === "Tarjeta Roja" && subValor === "En Vigor") {
-    mostrarManual("Tarjeta Roja");
+    presentarAvatar("Tarjeta Roja");
   } else {
     // Mostrar aclaración
     document.getElementById("formulario_No_Comunitario").classList.add("hidden");
@@ -264,27 +264,22 @@ async function mostrarManual(tipo) {
   document.getElementById("manual").classList.remove("hidden");
 
   // Mostrar avatar flotante
-  const avatar = document.getElementById("avatarFlotante");
-  avatar.classList.remove("hidden");
-  avatar.classList.add("avatar-rebote");
+  // const avatar = document.getElementById("avatarFlotante");
+  // avatar.classList.remove("hidden");
+  // avatar.classList.add("avatar-rebote");
 
   // Esperar a que el avatar se cargue
-  if (!window.avatarIniciado) {
-    await iniciarAvatarLive2D();
-    window.avatarIniciado = true;
-  } 
-  else {
-    iniciarAvatarLive2D();
-    window.avatarIniciado = true;
-  }
-  
-  // Iniciar Live2D si no está iniciado
- // if (!window.avatarIniciado) {
- //   iniciarAvatarLive2D(); // Tu función existente
-   // window.avatarIniciado = true;
+  //if (!window.avatarIniciado) {
+  //  await iniciarAvatarLive2D();
+  //  window.avatarIniciado = true;
+  //} 
+  //else {
+  //  iniciarAvatarLive2D();
+  //  window.avatarIniciado = true;
   //}
-
-  // Mostrar texto explicativo
+  //presentarAvatar();
+  
+  //Si el usuario dice que necesita ayuda entonces:
   const texto = document.getElementById("textoAvatar");
   let mensaje = "";
   switch (tipo) {
@@ -301,7 +296,7 @@ async function mostrarManual(tipo) {
       moverAvatar(150, 200);
       break;
   }
-  texto.textContent = mensaje;
+
   hablarYEscribir(mensaje);
 }
 
@@ -626,8 +621,63 @@ function iniciarAvatarLive2D() {
   });
 }
 
+async function presentarAvatar() {
+  localStorage.setItem("tipoDocumento", tipo); // Guardamos el tipo para usarlo después
+  const avatar = document.getElementById("avatarFlotante");
+  avatar.classList.remove("hidden");
+  avatar.classList.add("avatar-rebote"); // animación de entrada
 
-                     
+  // Esperar a que el avatar esté cargado si es la primera vez
+  if (!window.avatarIniciado) {
+    await iniciarAvatarLive2D();
+    window.avatarIniciado = true;
+  }
+  else {
+    iniciarAvatarLive2D();
+    window.avatarIniciado = true;
+  }
+  // Mostrar y hablar el mensaje
+  hablarYEscribir("¡Hola! Soy tu asistente virtual. ¿Necesitas ayuda con tu trámite?");
+
+  const contenedor = document.getElementById("textoAvatar");
+  setTimeout(() => {
+    const btnSi = document.createElement("button");
+    btnSi.textContent = "Sí";
+    btnSi.className = "botonRespuesta";
+    btnSi.onclick = () => responderAyuda(true);
+
+    const btnNo = document.createElement("button");
+    btnNo.textContent = "No";
+    btnNo.className = "botonRespuesta";
+    btnNo.onclick = () => responderAyuda(false);
+
+    contenedor.appendChild(document.createElement("br"));
+    contenedor.appendChild(btnSi);
+    contenedor.appendChild(btnNo);
+  }, 2000); // Espera a que termine de hablar
+
+  setTimeout(() => {  // Limpiar clase de animación para permitir futuras repeticiones
+    avatar.classList.remove("avatar-rebote");
+  }, 700);
+}
+
+function responderAyuda(necesitaAyuda) {
+  const contenedor = document.getElementById("textoAvatar");
+  contenedor.innerHTML = ""; // Limpiar botones
+
+  if (necesitaAyuda) {
+    hablarYEscribir("¡Perfecto! Te muestro el procedimiento paso a paso.");
+    const tipo = localStorage.getItem("tipoDocumento"); // Recuperar tipo de documento desde localStorage
+    if (tipo) {
+      mostrarManual(tipo); // ✅ Mostrar el manual correspondiente
+    } else {
+      hablarYEscribir("Ups, no tengo claro qué documento estás tramitando.");
+    }
+  } else {
+    hablarYEscribir("De acuerdo, si necesitas ayuda más adelante, estaré por aquí.");
+  }
+}
+
 function hablarYEscribir(texto) {
   const speech = new SpeechSynthesisUtterance(texto);
   speech.lang = "es-ES";
