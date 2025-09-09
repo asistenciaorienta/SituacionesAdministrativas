@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.31");
+  alert("Versión 2.32");
 };
 
 // Obtener la voz deseada
