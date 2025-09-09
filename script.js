@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.45");
+  alert("Versión 2.46");
 };
 
 // Obtener la voz deseada
@@ -666,7 +666,7 @@ async function presentarAvatar(tipo) {
   }, 700);
 }
 
-function responderAyuda(necesitaAyuda) {
+async function responderAyuda(necesitaAyuda) {
   detenerHablaAvatar(); // ✅ detener habla al pulsar
   const contenedor = document.getElementById("avatarFlotante");
   const burbujas = contenedor.querySelectorAll(".burbujaRespuesta");
@@ -675,7 +675,7 @@ function responderAyuda(necesitaAyuda) {
     // ✅ El usuario quiere ayuda → eliminar burbujas
     burbujas.forEach(burbuja => burbuja.remove());
 
-    hablarYEscribir("¡Perfecto! Te muestro el procedimiento paso a paso.");
+    await hablarYEscribir("¡Perfecto! Te muestro el procedimiento paso a paso."); // ✅ espera a que termine
     const tipo = localStorage.getItem("tipoDocumento");
     if (tipo) {
       mostrarManual(tipo);
@@ -689,34 +689,42 @@ function responderAyuda(necesitaAyuda) {
 }
 
 function hablarYEscribir(texto) {
-  const speech = new SpeechSynthesisUtterance(texto);
-  speech.lang = "es-ES";
-  if (vozSeleccionada) speech.voice = vozSeleccionada;
+  return new Promise(resolve => {
+    const speech = new SpeechSynthesisUtterance(texto);
+    speech.lang = "es-ES";
+    if (vozSeleccionada) speech.voice = vozSeleccionada;
 
-  const contenedor = document.getElementById("textoAvatar");
-  contenedor.textContent = "";
+    const contenedor = document.getElementById("textoAvatar");
+    contenedor.textContent = "";
 
-  // Activar movimiento de boca
-  speech.onstart = () => {
-    if (window.avatarTalking) window.avatarTalking();
-  };
-  speech.onend = () => {
-    if (window.avatarSilencio) window.avatarSilencio();
-  };
+    // Activar movimiento de boca
+    speech.onstart = () => {
+      if (window.avatarTalking) window.avatarTalking();
+    };
+    speech.onend = () => {
+      if (window.avatarSilencio) window.avatarSilencio();
+      resolve(); // ✅ termina la promesa
+    };
 
-  // Iniciar habla inmediatamente
-  window.speechSynthesis.speak(speech);
+    window.speechSynthesis.speak(speech);
 
-  // Mostrar texto letra por letra en paralelo
-  const letras = texto.split("");
-  let i = 0;
-  const intervalo = setInterval(() => {
-    contenedor.textContent += letras[i];
-    i++;
-    if (i >= letras.length) clearInterval(intervalo);
-  }, 50); // velocidad por letra
+    // Mostrar texto en paralelo
+    const letras = texto.split("");
+    let i = 0;
+    const intervalo = setInterval(() => {
+      contenedor.textContent += letras[i];
+      i++;
+      if (i >= letras.length) clearInterval(intervalo);
+    }, 50);
+  });
 }
+
 function detenerHablaAvatar() {
   window.speechSynthesis.cancel(); // ✅ Detiene cualquier discurso activo
   if (window.avatarSilencio) window.avatarSilencio(); // ✅ Detiene animación de boca
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  cargarVoces(); // ✅ Ejecutar directamente al cargar
+});
+
