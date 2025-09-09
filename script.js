@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.39");
+  alert("Versión 2.40");
 };
 
 // Obtener la voz deseada
@@ -644,18 +644,22 @@ async function presentarAvatar(tipo) {
   hablarYEscribir("¡Hola! Soy tu asistente virtual. ¿Necesitas ayuda con tu trámite?");
 
   setTimeout(() => {
-    const contenedor = document.getElementById("textoAvatar");
+    const contenedor = document.getElementById("avatarFlotante");
+  
     const btnSi = document.createElement("button");
     btnSi.textContent = "Sí";
-    btnSi.className = "botonRespuesta";
+    btnSi.className = "burbujaRespuesta";
+    btnSi.style.top = "20px";
+    btnSi.style.left = "20px";
     btnSi.onclick = () => responderAyuda(true);
-
+  
     const btnNo = document.createElement("button");
     btnNo.textContent = "No";
-    btnNo.className = "botonRespuesta";
+    btnNo.className = "burbujaRespuesta";
+    btnNo.style.top = "20px";
+    btnNo.style.left = "120px";
     btnNo.onclick = () => responderAyuda(false);
-
-    contenedor.appendChild(document.createElement("br"));
+  
     contenedor.appendChild(btnSi);
     contenedor.appendChild(btnNo);
   }, 2000); // Espera a que termine de hablar
