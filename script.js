@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.37");
+  alert("Versión 2.38");
 };
 
 // Obtener la voz deseada
@@ -259,9 +259,9 @@ function mostrarFormularioNoComunitario() {
 
 async function mostrarManual(tipo) {
   localStorage.setItem("tipoDocumento", tipo);        
-  document.getElementById("formulario_No_Comunitario").classList.add("hidden"); 
-  document.getElementById("manualImg").src = urls[tipo];
-  document.getElementById("manual").classList.remove("hidden");
+ // document.getElementById("formulario_No_Comunitario").classList.add("hidden"); 
+ // document.getElementById("manualImg").src = urls[tipo];
+ // document.getElementById("manual").classList.remove("hidden");
 
   // Mostrar avatar flotante
   // const avatar = document.getElementById("avatarFlotante");
@@ -624,6 +624,10 @@ function iniciarAvatarLive2D() {
 async function presentarAvatar(tipo) {
   localStorage.setItem("tipoDocumento", tipo); // Guardamos el tipo para usarlo después
   const avatar = document.getElementById("avatarFlotante");
+  document.getElementById("formulario_No_Comunitario").classList.add("hidden"); 
+  document.getElementById("manualImg").src = urls[tipo];
+  document.getElementById("manual").classList.remove("hidden");
+  
   avatar.classList.remove("hidden");
   avatar.classList.add("avatar-rebote"); // animación de entrada
 
