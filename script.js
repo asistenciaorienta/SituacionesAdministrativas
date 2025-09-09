@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.38");
+  alert("Versión 2.39");
 };
 
 // Obtener la voz deseada
@@ -643,8 +643,8 @@ async function presentarAvatar(tipo) {
   // Mostrar y hablar el mensaje
   hablarYEscribir("¡Hola! Soy tu asistente virtual. ¿Necesitas ayuda con tu trámite?");
 
-  const contenedor = document.getElementById("textoAvatar");
   setTimeout(() => {
+    const contenedor = document.getElementById("textoAvatar");
     const btnSi = document.createElement("button");
     btnSi.textContent = "Sí";
     btnSi.className = "botonRespuesta";
