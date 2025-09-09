@@ -422,7 +422,7 @@ img {
 }
 #avatarFlotante {
   background: transparent !important;  
-  position: relative;  //absolute
+  position: absolute;  //absolute
   top: 100px;
   left: 50px;
   transition: top 1s ease, left 1s ease;
