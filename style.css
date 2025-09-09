@@ -444,8 +444,8 @@ canvas {
   position: absolute;
   top: 275px; /* justo debajo del canvas (400px de alto + margen) */
   left: 0px;
-  background-color: #222; /* Fondo oscuro */
-  color: #fff;            /* Texto blanco */
+  background-color: #111; /* Fondo oscuro */
+  color: #000;            /* Texto blanco */
   padding: 10px;
   border-radius: 10px;
   font-size: 1em;
