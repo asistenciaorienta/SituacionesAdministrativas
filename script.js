@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.40");
+  alert("Versión 2.41");
 };
 
 // Obtener la voz deseada
@@ -645,19 +645,18 @@ async function presentarAvatar(tipo) {
 
   setTimeout(() => {
     const contenedor = document.getElementById("avatarFlotante");
-  
     const btnSi = document.createElement("button");
     btnSi.textContent = "Sí";
     btnSi.className = "burbujaRespuesta";
-    btnSi.style.top = "20px";
-    btnSi.style.left = "20px";
+    btnSi.style.top = "-400px";
+    btnSi.style.left = "100px";
     btnSi.onclick = () => responderAyuda(true);
   
     const btnNo = document.createElement("button");
     btnNo.textContent = "No";
     btnNo.className = "burbujaRespuesta";
-    btnNo.style.top = "20px";
-    btnNo.style.left = "120px";
+    btnNo.style.top = "-400px";
+    btnNo.style.left = "200px";
     btnNo.onclick = () => responderAyuda(false);
   
     contenedor.appendChild(btnSi);
@@ -670,21 +669,26 @@ async function presentarAvatar(tipo) {
 }
 
 function responderAyuda(necesitaAyuda) {
-  const contenedor = document.getElementById("textoAvatar");
-  contenedor.innerHTML = ""; // Limpiar botones
+  const contenedor = document.getElementById("avatarFlotante");
+  const burbujas = contenedor.querySelectorAll(".burbujaRespuesta");
 
   if (necesitaAyuda) {
+    // ✅ El usuario quiere ayuda → eliminar burbujas
+    burbujas.forEach(burbuja => burbuja.remove());
+
     hablarYEscribir("¡Perfecto! Te muestro el procedimiento paso a paso.");
-    const tipo = localStorage.getItem("tipoDocumento"); // Recuperar tipo de documento desde localStorage
+    const tipo = localStorage.getItem("tipoDocumento");
     if (tipo) {
-      mostrarManual(tipo); // ✅ Mostrar el manual correspondiente
+      mostrarManual(tipo);
     } else {
       hablarYEscribir("Ups, no tengo claro qué documento estás tramitando.");
     }
   } else {
+    // ❌ El usuario no quiere ayuda → mantener burbujas activas
     hablarYEscribir("De acuerdo, si necesitas ayuda más adelante, estaré por aquí.");
   }
 }
+
 
 function hablarYEscribir(texto) {
   const speech = new SpeechSynthesisUtterance(texto);
