@@ -621,7 +621,7 @@ function iniciarAvatarLive2D() {
   });
 }
 
-async function presentarAvatar() {
+async function presentarAvatar(tipo) {
   localStorage.setItem("tipoDocumento", tipo); // Guardamos el tipo para usarlo después
   const avatar = document.getElementById("avatarFlotante");
   avatar.classList.remove("hidden");
