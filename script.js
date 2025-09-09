@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.41");
+  alert("Versión 2.42");
 };
 
 // Obtener la voz deseada
@@ -648,14 +648,14 @@ async function presentarAvatar(tipo) {
     const btnSi = document.createElement("button");
     btnSi.textContent = "Sí";
     btnSi.className = "burbujaRespuesta";
-    btnSi.style.top = "-400px";
+    btnSi.style.top = "0px";
     btnSi.style.left = "100px";
     btnSi.onclick = () => responderAyuda(true);
   
     const btnNo = document.createElement("button");
     btnNo.textContent = "No";
     btnNo.className = "burbujaRespuesta";
-    btnNo.style.top = "-400px";
+    btnNo.style.top = "0px";
     btnNo.style.left = "200px";
     btnNo.onclick = () => responderAyuda(false);
   
