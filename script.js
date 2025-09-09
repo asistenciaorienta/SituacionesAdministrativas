@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.29");
+  alert("Versión 2.30");
 };
 
 // Obtener la voz deseada
@@ -266,6 +266,7 @@ async function mostrarManual(tipo) {
   // Mostrar avatar flotante
   const avatar = document.getElementById("avatarFlotante");
   avatar.classList.remove("hidden");
+  avatar.classList.add("avatar-animado");
 
   // Esperar a que el avatar se cargue
   if (!window.avatarIniciado) {
