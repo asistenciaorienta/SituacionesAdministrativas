@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.53");
+  alert("Versión 2.55");
 };
 
 // Obtener la voz deseada
@@ -259,27 +259,7 @@ function mostrarFormularioNoComunitario() {
 }
 
 async function mostrarManual(tipo) {
-  localStorage.setItem("tipoDocumento", tipo);        
- // document.getElementById("formulario_No_Comunitario").classList.add("hidden"); 
- // document.getElementById("manualImg").src = urls[tipo];
- // document.getElementById("manual").classList.remove("hidden");
-
-  // Mostrar avatar flotante
-  // const avatar = document.getElementById("avatarFlotante");
-  // avatar.classList.remove("hidden");
-  // avatar.classList.add("avatar-rebote");
-
-  // Esperar a que el avatar se cargue
-  //if (!window.avatarIniciado) {
-  //  await iniciarAvatarLive2D();
-  //  window.avatarIniciado = true;
-  //} 
-  //else {
-  //  iniciarAvatarLive2D();
-  //  window.avatarIniciado = true;
-  //}
-  //presentarAvatar();
-  
+  localStorage.setItem("tipoDocumento", tipo);         
   //Si el usuario dice que necesita ayuda entonces:
   const texto = document.getElementById("textoAvatar");
   let mensaje = "";
@@ -297,7 +277,6 @@ async function mostrarManual(tipo) {
       moverAvatar(150, 200);
       break;
   }
-
   hablarYEscribir(mensaje);
 }
 
@@ -624,7 +603,9 @@ async function presentarAvatar(tipo) {
   const avatar = document.getElementById("avatarFlotante");
   document.getElementById("formulario_No_Comunitario").classList.add("hidden"); 
   document.getElementById("manualImg").src = urls[tipo];
-  document.getElementById("manual").classList.remove("hidden");
+  document.getElementById("manual").classList.remove("hidden");  
+  const burbujas = contenedor.querySelectorAll(".burbujaRespuesta");
+  burbujas.forEach(burbuja => burbuja.remove()); // ✅ eliminar burbujas si/no si está activo
   
   avatar.classList.remove("hidden");
   avatar.classList.add("avatar-rebote"); // animación de entrada
