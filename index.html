@@ -19,15 +19,7 @@
     Contenido: Elisabeth Huertas García y José Manuel Robles Chaves.
     Testeo y verificación: Isabel Peláez Carmona, Silvia Gómez Martín, Inmaculada Ortega Avilés, Beatriz Girela Muñoz.
     Aporte de información: Todas las oficinas SAE de la provincia de Granada y sus direcciones de ATE. -->
-
-    <div id="titulo">
-      <h1>Ayuda para el registro en SILA de una persona migrante</h2>
-<!------------------------------------------------------------------------------------------------------->
-<label for="vozSelector">Elige la voz del avatar:</label>
-<select id="vozSelector"></select>
-<button id="btnEscucharMuestra">🔊 Escuchar muestra</button>
-      
-    </div>
+    <!-----botones ir a inicio y ayuda--->
     <div id="botonera">
       <div id="inicio" class="nacionalidad-card">
         <button class="btn-small" onclick="volverInicio(); confirmarBorrado();">Inicio</button>
@@ -36,32 +28,39 @@
         <button class="btn-small" onclick="ayuda();">Ayuda</button>
       </div>
     </div>
-          
-    <!-- Página de nacionalidad (ORIGEN) -->
-    <div id="nacionalidad-page" class="nacionalidad-card">
-
-
-      <h2>Selecciona el Origen de la persona usuaria</h2>
-
-      <div class="botones-nacionalidad">
-        <div class="btn-wrapper">
-          <button class="btn" onclick="mostrarFormularioComunitario()">Comunitario/a</button>
-          <span class="tooltip-container">
-            <span class="help-icon">?</span>
-            <div class="tooltip-text">
-              <strong>Países comunitarios:</strong><br>
-                Austria, Bélgica, Bulgaria, Chipre, República Checa, Dinamarca, Estonia, Finlandia, Francia,
-                Alemania, Grecia, Hungría, Irlanda, Italia, Letonia, Lituania, Luxemburgo, Malta,
-                Países Bajos, Polonia, Portugal, Rumanía, Eslovaquia, Eslovenia, España, Suecia,
-                Islandia, Liechtenstein, Noruega, Suiza.
-            </div>
-          </span>
-        </div>
-        <button class="btn" onclick="mostrarFormularioNoComunitario()">No Comunitario/a</button>
+    
+  <div id="pagina_inicial">
+      <div id="titulo">
+        <h1>Ayuda para el registro en SILA de una persona migrante</h2>
+        
+        <!-------------------------Esto es temporal hasta elegir la voz para el avatar--------------------------------------------------------------->
+        <label for="vozSelector">Elige la voz del avatar:</label>
+        <select id="vozSelector"></select>
+        <button id="btnEscucharMuestra">🔊 Escuchar muestra</button>      
+        
       </div>
-      
-    </div>
-  
+      <!-- Página de nacionalidad (ORIGEN) -->
+      <div id="nacionalidad-page" class="nacionalidad-card">
+        <h2>Selecciona el Origen de la persona usuaria</h2>
+        <div class="botones-nacionalidad">
+          <div class="btn-wrapper">
+            <button class="btn" onclick="mostrarFormularioComunitario()">Comunitario/a</button>
+            <span class="tooltip-container">
+              <span class="help-icon">?</span>
+              <div class="tooltip-text">
+                <strong>Países comunitarios:</strong><br>
+                  Austria, Bélgica, Bulgaria, Chipre, República Checa, Dinamarca, Estonia, Finlandia, Francia,
+                  Alemania, Grecia, Hungría, Irlanda, Italia, Letonia, Lituania, Luxemburgo, Malta,
+                  Países Bajos, Polonia, Portugal, Rumanía, Eslovaquia, Eslovenia, España, Suecia,
+                  Islandia, Liechtenstein, Noruega, Suiza.
+              </div>
+            </span>
+          </div>
+          <button class="btn" onclick="mostrarFormularioNoComunitario()">No Comunitario/a</button>
+        </div>
+      </div>
+    </div>  <!-- fin pagina inicial -->
+    
     <!-- Documentación Necesaria para Comunitario -->
     <div id="Doc_Necesaria_Comunitario" class="hidden">
       <h2>Documentación Necesaria para Inscribir a una persona Comunitaria</h2>
