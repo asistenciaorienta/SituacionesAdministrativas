@@ -247,6 +247,7 @@ function cerrarModal() {
 }
 
 function mostrarFormularioComunitario() {
+  document.getElementById("pagina_inicial").classList.add("hidden");
   document.getElementById("nacionalidad-page").classList.add("hidden");
   document.getElementById("Doc_Necesaria_Comunitario").classList.remove("hidden");
   document.getElementById("titulo").classList.add("hidden");
@@ -324,7 +325,8 @@ function volverInicio() {
   document.getElementById("Doc_Necesaria_Comunitario").classList.add("hidden");
   document.getElementById("formulario_No_Comunitario").classList.add("hidden");
   document.getElementById("manual").classList.add("hidden");  
-  document.getElementById("mensaje-aclaratorio").classList.add("hidden");
+  document.getElementById("mensaje-aclaratorio").classList.add("hidden");  
+  document.getElementById("pagina_inicial").classList.remove("hidden");
 }
 function volverNacionalidad() {
   document.getElementById("Doc_Necesaria_Comunitario").classList.add("hidden");
