@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.52");
+  alert("Versión 2.53");
 };
 
 // Obtener la voz deseada
@@ -684,27 +684,25 @@ function hablarYEscribir(texto) {
     const contenedor = document.getElementById("textoAvatar");
     contenedor.textContent = "";
 
-    let indice = 0;
+    let intervalo; // referencia para luego poder limpiar
 
     speech.onstart = () => {
       if (window.avatarTalking) window.avatarTalking();
-    };
 
-    // 🔑 Este evento se dispara cuando la voz "entra" en un rango del texto
-    speech.onboundary = (event) => {
-      if (event.name === "word" || event.name === "text") {
-        // Escribir hasta la posición actual de la voz
-        const hasta = event.charIndex;
-        contenedor.textContent = texto.substring(0, hasta);
-        indice = hasta;
-      }
+      // 🚀 arrancar el tipeo justo cuando empieza a hablar
+      const letras = texto.split("");
+      let i = 0;
+      intervalo = setInterval(() => {
+        contenedor.textContent += letras[i];
+        i++;
+        if (i >= letras.length) clearInterval(intervalo);
+      }, 50);
     };
 
     speech.onend = () => {
       if (window.avatarSilencio) window.avatarSilencio();
-      // Asegurarnos de que el texto se escribe completo
-      contenedor.textContent = texto;
-      resolve();
+      if (intervalo) clearInterval(intervalo); // por si termina antes
+      resolve(); // ✅ termina la promesa
     };
 
     window.speechSynthesis.speak(speech);
@@ -735,14 +733,14 @@ function mostrarBotonesAyuda() {
   const btnSi = document.createElement("button");
   btnSi.textContent = "Sí";
   btnSi.className = "burbujaRespuesta";
-  btnSi.style.top = "350px";
+  btnSi.style.top = "345px";
   btnSi.style.left = "70px";
   btnSi.onclick = () => responderAyuda(true);
 
   const btnNo = document.createElement("button");
   btnNo.textContent = "No";
   btnNo.className = "burbujaRespuesta";
-  btnNo.style.top = "350px";
+  btnNo.style.top = "345px";
   btnNo.style.left = "170px";
   btnNo.onclick = () => responderAyuda(false);
 
