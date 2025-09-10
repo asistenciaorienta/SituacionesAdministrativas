@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.51");
+  alert("Versión 2.52");
 };
 
 // Obtener la voz deseada
@@ -684,26 +684,27 @@ function hablarYEscribir(texto) {
     const contenedor = document.getElementById("textoAvatar");
     contenedor.textContent = "";
 
-    let intervalo; // referencia para luego poder limpiar
+    let indice = 0;
 
-    // Activar movimiento de boca
     speech.onstart = () => {
       if (window.avatarTalking) window.avatarTalking();
+    };
 
-      // 🚀 arrancar el tipeo justo cuando empieza a hablar
-      const letras = texto.split("");
-      let i = 0;
-      intervalo = setInterval(() => {
-        contenedor.textContent += letras[i];
-        i++;
-        if (i >= letras.length) clearInterval(intervalo);
-      }, 50);
+    // 🔑 Este evento se dispara cuando la voz "entra" en un rango del texto
+    speech.onboundary = (event) => {
+      if (event.name === "word" || event.name === "text") {
+        // Escribir hasta la posición actual de la voz
+        const hasta = event.charIndex;
+        contenedor.textContent = texto.substring(0, hasta);
+        indice = hasta;
+      }
     };
 
     speech.onend = () => {
       if (window.avatarSilencio) window.avatarSilencio();
-      if (intervalo) clearInterval(intervalo); // por si termina antes
-      resolve(); // ✅ termina la promesa
+      // Asegurarnos de que el texto se escribe completo
+      contenedor.textContent = texto;
+      resolve();
     };
 
     window.speechSynthesis.speak(speech);
