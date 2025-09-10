@@ -549,8 +549,16 @@ canvas {
     transform: scale(1) translateY(0);
   }
 }
-/* Opcional: darle estilo al formulario */
+
 #formulario_No_Comunitario {
+  text-align: center; /* centra el texto y botones dentro */
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+#pagina_inicial {
   text-align: center; /* centra el texto y botones dentro */
   background: #f9f9f9;
   padding: 20px;
