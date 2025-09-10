@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.55");
+  alert("Versión 2.56");
 };
 
 // Obtener la voz deseada
@@ -248,15 +248,12 @@ function cerrarModal() {
 
 function mostrarFormularioComunitario() {
   document.getElementById("pagina_inicial").classList.add("hidden");
-  document.getElementById("nacionalidad-page").classList.add("hidden");
   document.getElementById("Doc_Necesaria_Comunitario").classList.remove("hidden");
-  document.getElementById("titulo").classList.add("hidden");
 }      
 
 function mostrarFormularioNoComunitario() {
-  document.getElementById("nacionalidad-page").classList.add("hidden");
+  document.getElementById("pagina_inicial").classList.add("hidden");
   document.getElementById("formulario_No_Comunitario").classList.remove("hidden");
-  document.getElementById("titulo").classList.add("hidden");
 }
 
 async function mostrarManual(tipo) {
@@ -318,21 +315,18 @@ function volverInicioDesdeFormulario() {
 }
 function volverInicio() {
   detenerHablaAvatar(); // ✅ detener habla al pulsar
-  document.getElementById("nacionalidad-page").classList.remove("hidden");
-  document.getElementById("titulo").classList.remove("hidden");
+  document.getElementById("pagina_inicial").classList.remove("hidden");
   document.getElementById("formulario").classList.add("hidden");
   document.getElementById("manual").classList.add("hidden");
   document.getElementById("Doc_Necesaria_Comunitario").classList.add("hidden");
   document.getElementById("formulario_No_Comunitario").classList.add("hidden");
   document.getElementById("manual").classList.add("hidden");  
   document.getElementById("mensaje-aclaratorio").classList.add("hidden");  
-  document.getElementById("pagina_inicial").classList.remove("hidden");
 }
 function volverNacionalidad() {
   document.getElementById("Doc_Necesaria_Comunitario").classList.add("hidden");
   document.getElementById("formulario_No_Comunitario").classList.add("hidden");
-  document.getElementById("nacionalidad-page").classList.remove("hidden");
-  document.getElementById("titulo").classList.remove("hidden");
+  document.getElementById("pagina_inicial").classList.remove("hidden");
 }
 
 function volverNoComunitario() {
