@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.50");
+  alert("Versión 2.51");
 };
 
 // Obtener la voz deseada
@@ -684,25 +684,29 @@ function hablarYEscribir(texto) {
     const contenedor = document.getElementById("textoAvatar");
     contenedor.textContent = "";
 
+    let intervalo; // referencia para luego poder limpiar
+
     // Activar movimiento de boca
     speech.onstart = () => {
       if (window.avatarTalking) window.avatarTalking();
+
+      // 🚀 arrancar el tipeo justo cuando empieza a hablar
+      const letras = texto.split("");
+      let i = 0;
+      intervalo = setInterval(() => {
+        contenedor.textContent += letras[i];
+        i++;
+        if (i >= letras.length) clearInterval(intervalo);
+      }, 50);
     };
+
     speech.onend = () => {
       if (window.avatarSilencio) window.avatarSilencio();
+      if (intervalo) clearInterval(intervalo); // por si termina antes
       resolve(); // ✅ termina la promesa
     };
 
     window.speechSynthesis.speak(speech);
-
-    // Mostrar texto en paralelo
-    const letras = texto.split("");
-    let i = 0;
-    const intervalo = setInterval(() => {
-      contenedor.textContent += letras[i];
-      i++;
-      if (i >= letras.length) clearInterval(intervalo);
-    }, 50);
   });
 }
 
@@ -730,14 +734,14 @@ function mostrarBotonesAyuda() {
   const btnSi = document.createElement("button");
   btnSi.textContent = "Sí";
   btnSi.className = "burbujaRespuesta";
-  btnSi.style.top = "300px";
+  btnSi.style.top = "350px";
   btnSi.style.left = "70px";
   btnSi.onclick = () => responderAyuda(true);
 
   const btnNo = document.createElement("button");
   btnNo.textContent = "No";
   btnNo.className = "burbujaRespuesta";
-  btnNo.style.top = "300px";
+  btnNo.style.top = "350px";
   btnNo.style.left = "170px";
   btnNo.onclick = () => responderAyuda(false);
 
