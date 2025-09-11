@@ -223,11 +223,11 @@ function evaluarDocumento() {
   }
   // Mostrar manual si está en vigor
   if (valorPrincipal === "TIE" && subValor === "En Vigor") {
-    presentarAvatar("TIE");
+    tar("TIE");
   } else if (valorPrincipal === "Resolución" && subValor === "En Vigor") {
-    presentarAvatar("Documento");
+    tar("Documento");
   } else if (valorPrincipal === "Tarjeta Roja" && subValor === "En Vigor") {
-    presentarAvatar("Tarjeta Roja");
+    tar("Tarjeta Roja");
   } else {
     // Mostrar aclaración
     document.getElementById("formulario_No_Comunitario").classList.add("hidden");
@@ -599,6 +599,7 @@ async function presentarAvatar(tipo) {
   document.getElementById("formulario_No_Comunitario").classList.add("hidden"); 
   document.getElementById("manualImg").src = urls[tipo];
   document.getElementById("manual").classList.remove("hidden");  
+  const contenedor = document.getElementById("avatarFlotante");
   const burbujas = contenedor.querySelectorAll(".burbujaRespuesta");
   burbujas.forEach(burbuja => burbuja.remove()); // ✅ eliminar burbujas si/no si está activo
   
