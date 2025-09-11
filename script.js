@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.56");
+  alert("Versión 2.57");
 };
 
 // Obtener la voz deseada
@@ -118,7 +118,6 @@ function anadirEventosCheck() {
 }
 
 // En tu función mostrarSugerencias, tras crear el formulario, llama a añadirEventosCheck()
-
 
 function ocultar_resultado(){
   document.getElementById('resultado').classList.add('hidden');
