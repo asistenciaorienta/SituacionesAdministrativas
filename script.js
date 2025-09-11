@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.58");
+  alert("Versión 2.59");
 };
 
 // Obtener la voz deseada
@@ -223,11 +223,11 @@ function evaluarDocumento() {
   }
   // Mostrar manual si está en vigor
   if (valorPrincipal === "TIE" && subValor === "En Vigor") {
-    tar("TIE");
+    presentarAvatar("TIE");
   } else if (valorPrincipal === "Resolución" && subValor === "En Vigor") {
-    tar("Documento");
+    presentarAvatar("Documento");
   } else if (valorPrincipal === "Tarjeta Roja" && subValor === "En Vigor") {
-    tar("Tarjeta Roja");
+    presentarAvatar("Tarjeta Roja");
   } else {
     // Mostrar aclaración
     document.getElementById("formulario_No_Comunitario").classList.add("hidden");
