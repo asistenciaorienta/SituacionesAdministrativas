@@ -21,15 +21,6 @@ body {
   margin: auto  auto 40px;
 }
 
-#Doc_Necesaria_Comunitario {
-  max-width: 870px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  padding: 30px 20px 40px;
-  margin: auto  auto 40px;
-}
-
 h1 {
   color: #007A33;
   margin-bottom: 24px;
@@ -559,6 +550,14 @@ canvas {
 }
 
 #pagina_inicial {
+  text-align: center; /* centra el texto y botones dentro */
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+#Doc_Necesaria_Comunitario {
   text-align: center; /* centra el texto y botones dentro */
   background: #f9f9f9;
   padding: 20px;
