@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.85");
+  alert("Versión 2.86");
 };
 
 // Obtener la voz deseada
@@ -660,7 +660,7 @@ async function responderAyuda(necesitaAyuda) {
         activarReactivacionAvatar(); // ✅ registrar el clic solo después de hablar
         // ✅ Mover avatar a la esquina superior izquierda
         moverAvatar(30, 10);
-        minimizarAvatar(0.4);
+        minimizarAvatar(0.25);
       });
   }
 }
@@ -754,7 +754,7 @@ function mostrarBotonesAyuda() {
 }
 
 function minimizarAvatarPorInactividad() {
-  minimizarAvatar(0.4);
+  minimizarAvatar(0.25);
   const texto = document.getElementById("textoAvatar");
   texto.textContent = "";
   texto.classList.add("ocultoDeslizado");
