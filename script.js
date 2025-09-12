@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.72");
+  alert("Versión 2.73");
 };
 
 // Obtener la voz deseada
@@ -661,11 +661,11 @@ async function responderAyuda(necesitaAyuda) {
         // ✅ Mover avatar a la esquina superior izquierda
         moverAvatar(30, 10);
         avatar.classList.add("avatar-minimizado");
-        //canvas.style.width = "100px";
-        //canvas.style.height = "100px";        
+        canvas.style.width = "100px";
+        canvas.style.height = "100px";        
         // Reducir el modelo Live2D
         if (window.avatarModel) {
-          window.avatarModel.scale.set(0.75); // Ajusta según lo que se vea bien
+          window.avatarModel.scale.set(0.5); // Ajusta según lo que se vea bien
         }
       });
   }
@@ -681,8 +681,8 @@ function activarReactivacionAvatar() {
       avatar.removeEventListener("click", reactivarAyuda);
       delete avatar.dataset.reactivacionActiva;
       avatar.classList.remove("avatar-minimizado");
-      //canvas.style.width = "300px"; // o el tamaño original
-      //canvas.style.height = "300px";      
+      canvas.style.width = "300px"; // o el tamaño original
+      canvas.style.height = "300px";      
       if (window.avatarModel) {
         window.avatarModel.scale.set(1); // tamaño original
       }
