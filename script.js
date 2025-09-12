@@ -495,8 +495,8 @@ function iniciarAvatarLive2D() {
       autoStart: true,
       //resizeTo: canvas,
       transparent: true
-      width: 300, // tamaño inicial
-      height: 300
+      width: 300px, // tamaño inicial
+      height: 300px
   });
   const modelPath = "modelo010925_2/modelo010925_2.model3.json"; // Ajusta la ruta si es necesario
   let nextBlink = Date.now() + (2000 + Math.random() * 3000);
