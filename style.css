@@ -427,7 +427,7 @@ img {
   top: 100px;             /* centrado vertical, antes top: 100px;*/
   left: 50px;           /* pegado al borde izquierdo, antes 50px*/
   width: 300px;
-  height: 300px;
+  height: 400px;
   overflow: visible;
   transition: top 1s ease, left 1s ease;
   z-index: 10;  
@@ -456,7 +456,7 @@ canvas {
   box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Sombra para profundidad */
   display: block;
   visibility: visible;
-  max-height: 400px; /* o el alto que uses normalmente */
+  /*max-height: 300px; /* o el alto que uses normalmente */
   transition: max-height 0.5s ease, opacity 0.5s ease; 
 }
 #textoAvatar::after {
