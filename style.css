@@ -430,11 +430,8 @@ img {
   height: 400px;
   overflow: visible;
   z-index: 10;  
-  transition:
-    top 1s ease,
-    left 1s ease,
-    width 0.5s ease,
-    height 0.5s ease;
+  transform-origin: top left;
+  transition: transform 0.5s ease;
 }
 canvas {
   background: transparent !important;
@@ -614,8 +611,7 @@ canvas {
   transition: max-height 0.5s ease, opacity 0.5s ease;
 }
 #avatarFlotante.avatar-minimizado {
-  width: 60px;
-  height: 80px;
+  transform: scale(0.2);
 }
 
 
