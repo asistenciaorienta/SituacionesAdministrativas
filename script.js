@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.80");
+  alert("Versión 2.81");
 };
 
 // Obtener la voz deseada
@@ -497,7 +497,8 @@ function iniciarAvatarLive2D() {
       width: 300,
       height: 400
     });
-
+    // Guarda la app globalmente para poder redimensionar después
+    window.avatarApp = app;
     const modelPath = "modelo010925_2/modelo010925_2.model3.json";
     PIXI.live2d.Live2DModel.from(modelPath)
       .then(model => {
@@ -510,24 +511,19 @@ function iniciarAvatarLive2D() {
         const ID_MSPEAK = "ParametroMouthSpeak";
         const ID_BROW_L = "ParametroCejaIzquierda";
         const ID_BROW_R = "ParametroCejaDerecha";
-
         model.scale.set(0.15);
         model.anchor.set(0.5);
         model.x = app.renderer.width  / 2;
         model.y = app.renderer.height / 2;
         app.stage.addChild(model);
-
         // valores iniciales
         core.setParameterValueById(ID_BLINK,   0);
         core.setParameterValueById(ID_ATT,    -30);
         core.setParameterValueById(ID_LEG,    -30);
         core.setParameterValueById(ID_MOPEN,   0);
         core.setParameterValueById(ID_MSPEAK, -1);
-
         // 2) Parpadeo con timers en lugar de ticker
-        function scheduleBlink() {
-          setTimeout(() => blinkPhase(1), 2000 + Math.random()*3000);
-        }
+        function scheduleBlink() { setTimeout(() => blinkPhase(1), 2000 + Math.random()*3000);}
         function blinkPhase(step) {
           if (step === 1) {
             core.setParameterValueById(ID_BLINK, 0.5);
@@ -541,14 +537,12 @@ function iniciarAvatarLive2D() {
           }
         }
         scheduleBlink();
-
         // 3) Lógica de habla y cejas
         let talking = false;
         let mouthValue = -1;
         let browLeft = 0, browRight = 0;
         let browTargetL = 0, browTargetR = 0;
         const BROW_LERP = 0.05;
-
         let mouthInterval = null;
         function startTalking() {
           if (mouthInterval) clearInterval(mouthInterval);
@@ -558,7 +552,6 @@ function iniciarAvatarLive2D() {
             const speed = ((Math.random()*0.15)+0.05)*(Math.random()<0.5 ? -1 : 1);
             mouthValue = Math.max(-1, Math.min(1, mouthValue + speed));
             core.setParameterValueById(ID_MSPEAK, mouthValue);
-
             // actualizar objetivos de cejas
             const base = (Math.random()*2 - 1)*60;
             const tilt = (Math.random()*2 - 1)*20;
@@ -566,7 +559,6 @@ function iniciarAvatarLive2D() {
             browTargetR = base - tilt;
           }, 150);
         }
-
         function stopTalking() {
           talking = false;
           clearInterval(mouthInterval);
@@ -574,7 +566,6 @@ function iniciarAvatarLive2D() {
           core.setParameterValueById(ID_MSPEAK, -1);
           browTargetL = browTargetR = 0;
         }
-
         // 4) ticker solo para suavizar cejas y aplicar estado de habla
         app.ticker.add(delta => {
           // se suavizan las cejas
@@ -589,21 +580,18 @@ function iniciarAvatarLive2D() {
             core.setParameterValueById(ID_MSPEAK, -1);
           }
         });
-
         // 5) Exponer controles externos
         window.avatarModel    = model;
         window.avatarTalking  = startTalking;
         window.avatarSilencio = stopTalking;
-
         resolve();
       })
       .catch(err => {
         console.error("Error al cargar el modelo:", err);
         reject(err);
-      });
+      });    
   });
 }
-
 
 async function presentarAvatar(tipo) {
   localStorage.setItem("tipoDocumento", tipo); // Guardamos el tipo para usarlo después
@@ -674,13 +662,19 @@ async function responderAyuda(necesitaAyuda) {
         // ✅ Mover avatar a la esquina superior izquierda
         moverAvatar(30, 10);
         avatar.classList.add("avatar-minimizado");
-        canvas.style.width = "80px";
+        canvas.style.width = "60px";
         canvas.style.height = "80px";        
         // Reducir el modelo Live2D
         // Redimensionar el renderer de Pixi
-        if (window.avatarModel && window.avatarModel.parent) {
-          window.avatarModel.parent.renderer.resize(80, 80);
-          window.avatarModel.scale.set(0.05); // tamaño reducido del modelo
+        if (window.avatarApp && window.avatarModel) {
+          // Redimensionar el renderer y el canvas
+          window.avatarApp.renderer.resize(60, 80);
+          const canvas = document.getElementById("live2dCanvas");
+          canvas.width  = 60;
+          canvas.height = 80;
+        
+          // Ajustar escala y posición del modelo
+          window.avatarModel.scale.set(0.05);
           window.avatarModel.x = 40;
           window.avatarModel.y = 40;
         }
@@ -699,14 +693,14 @@ function activarReactivacionAvatar() {
       delete avatar.dataset.reactivacionActiva;
       avatar.classList.remove("avatar-minimizado");
       canvas.style.width = "300px";
-      canvas.style.height = "300px";
-      
-      if (window.avatarModel && window.avatarModel.parent) {
-        window.avatarModel.parent.renderer.resize(300, 400);
-        window.avatarModel.scale.set(0.15); // tamaño original
-        window.avatarModel.x = 150;
-        window.avatarModel.y = 150;
-      }
+      canvas.style.height = "400px";      
+      // Restaurar a 300×400
+      window.avatarApp.renderer.resize(300, 400);
+      canvas.width  = 300;
+      canvas.height = 400;
+      window.avatarModel.scale.set(0.15);
+      window.avatarModel.x = 300/2;
+      window.avatarModel.y = 400/2;
       document.getElementById("textoAvatar").classList.remove("ocultoDeslizado");
       hablarYEscribir("¿Quieres que te ayude con tu trámite?")
         .then(() => {
