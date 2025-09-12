@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.82");
+  alert("Versión 2.84");
 };
 
 // Obtener la voz deseada
@@ -762,52 +762,29 @@ function minimizarAvatarPorInactividad() {
   activarReactivacionAvatar();
 }
 
-function minimizarAvatar(width, height, scale) {
+function minimizarAvatar(scale) {
   const avatar = document.getElementById("avatarFlotante");
-  const canvas = document.getElementById("live2dCanvas");
-
   // 1) Clase sobre el propio id → permite CSS más específica
   avatar.classList.add("avatar-minimizado");
-
-  // 2) Inline styles anulan aún más si hubiera conflicto
-  avatar.style.width  = width + "px";
-  avatar.style.height = height + "px";
-
-  // 3) Canvas HTML (resolución interna)
-  canvas.width  = width;
-  canvas.height = height;
-  canvas.style.width  = width + "px";
-  canvas.style.height = height + "px";
-
-  // 4) PixiJS renderer
-  if (window.avatarApp) {
-    window.avatarApp.renderer.resize(width, height);
-  }
-  // 5) Escala y reposiciona el modelo
+  // 2) Escala y reposiciona el modelo
   if (window.avatarModel) {
     window.avatarModel.scale.set(scale);
-    window.avatarModel.x = width  / 2;
-    window.avatarModel.y = height / 2;
+    //window.avatarModel.x = width  / 2;
+    //window.avatarModel.y = height / 2;
   }
 }
 
 function restaurarAvatar() {
   const avatar = document.getElementById("avatarFlotante");
   const canvas = document.getElementById("live2dCanvas");
-
   avatar.classList.remove("avatar-minimizado");
-  avatar.style.width  = "300px";
-  avatar.style.height = "400px";
-
+  // ahora sí, actualizamos la resolución de dibujo y escala del modelo
   canvas.width  = 300;
   canvas.height = 400;
-  canvas.style.width  = "300px";
-  canvas.style.height = "400px";
-
   window.avatarApp.renderer.resize(300, 400);
   window.avatarModel.scale.set(0.15);
-  window.avatarModel.x = 300 / 2;
-  window.avatarModel.y = 400 / 2;
-
+  window.avatarModel.x = 300/2;
+  window.avatarModel.y = 400/2;
+  
   document.getElementById("textoAvatar").classList.remove("ocultoDeslizado");
 }
