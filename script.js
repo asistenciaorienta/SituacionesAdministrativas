@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.79");
+  alert("Versión 2.80");
 };
 
 // Obtener la voz deseada
@@ -493,107 +493,117 @@ function iniciarAvatarLive2D() {
     const app = new PIXI.Application({
       view: canvas,
       autoStart: true,
-      //resizeTo: canvas
       transparent: true,
       width: 300,
       height: 400
-  });
-  const modelPath = "modelo010925_2/modelo010925_2.model3.json"; // Ajusta la ruta si es necesario
-  let nextBlink = Date.now() + (2000 + Math.random() * 3000);
-  let blinking = false;
-  let blinkStep = 0;
-
-  let talking = false;
-  let mouthValue = -1;
-  let mouthSpeed = 0.08;
-  let nextMouthChange = Date.now() + 500;
-
-  const paramBrowLeft = "ParametroCejaIzquierda";
-  const paramBrowRight = "ParametroCejaDerecha";
-  let browLeft = 0, browRight = 0;
-  let browTargetLeft = 0, browTargetRight = 0;
-  let nextBrowChange = Date.now() + 600;
-  const browLerp = 0.05;
-
-  function lerp(a, b, t) { return a + (b - a) * t; }
-
-  PIXI.live2d.Live2DModel.from(modelPath).then(model => {
-    model.scale.set(0.15); // Ajusta según el tamaño real del modelo
-    model.anchor.set(0.5); // Centra el modelo
-    model.x = app.renderer.width / 2;
-    model.y = app.renderer.height / 2;
-    app.stage.addChild(model);
-
-    // Estado inicial
-    model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0);
-    model.internalModel.coreModel.setParameterValueById("ParametroAtencion", -30.0);
-    model.internalModel.coreModel.setParameterValueById("Parametromoverpierna", -30.0);
-    model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 0.0);
-    model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", -1.0);
-
-  app.ticker.add(() => {
-      const now = Date.now();
-      // Parpadeo
-      if (!blinking && now >= nextBlink) {
-        blinking = true;
-        blinkStep = 1;
-        nextBlink = now + 50;
-        model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0.5);
-      } else if (blinking && now >= nextBlink) {
-        if (blinkStep === 1) {
-          blinkStep = 2;
-          nextBlink = now + 50;
-          model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 1);
-        } else if (blinkStep === 2) {
-          blinkStep = 3;
-          nextBlink = now + 50;
-          model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0);
-        } else {
-          blinking = false;
-          blinkStep = 0;
-          nextBlink = now + (2000 + Math.random() * 3000);
-        }
-      }
-      // Habla
-      if (talking) {
-        model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 1.0);
-        if (now >= nextMouthChange) {
-          mouthSpeed = (Math.random() * 0.15) + 0.05;
-          if (Math.random() < 0.5) mouthSpeed *= -1;
-          nextMouthChange = now + (200 + Math.random() * 700);
-          const base = (Math.random() * 2 - 1) * 60;
-          const tilt = (Math.random() * 2 - 1) * 20;
-          browTargetLeft = base + tilt;
-          browTargetRight = base - tilt;
-          nextBrowChange = now + (600 + Math.random() * 800);
-        }
-        mouthValue += mouthSpeed;
-        if (mouthValue > 1) { mouthValue = 1; mouthSpeed *= -1; }
-        if (mouthValue < -1) { mouthValue = -1; mouthSpeed *= -1; }
-        model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", mouthValue);
-      } else {
-        model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", -1.0);
-        model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 0.0);
-        browTargetLeft = 0;
-        browTargetRight = 0;
-      }
-
-      browLeft = lerp(browLeft, browTargetLeft, browLerp);
-      browRight = lerp(browRight, browTargetRight, browLerp);
-      model.internalModel.coreModel.setParameterValueById(paramBrowLeft, browLeft);
-      model.internalModel.coreModel.setParameterValueById(paramBrowRight, browRight);
     });
-    // Guardar referencia global para control externo
-    window.avatarModel = model;
-    window.avatarTalking = () => { talking = true; };
-    window.avatarSilencio = () => { talking = false; };
-    resolve();
-    }).catch(err => {
+
+    const modelPath = "modelo010925_2/modelo010925_2.model3.json";
+    PIXI.live2d.Live2DModel.from(modelPath)
+      .then(model => {
+        // 1) Configuración inicial
+        const core = model.internalModel.coreModel;
+        const ID_BLINK = "ParametroParpadeo";
+        const ID_ATT = "ParametroAtencion";
+        const ID_LEG  = "Parametromoverpierna";
+        const ID_MOPEN = "ParametroMouthOpen";
+        const ID_MSPEAK = "ParametroMouthSpeak";
+        const ID_BROW_L = "ParametroCejaIzquierda";
+        const ID_BROW_R = "ParametroCejaDerecha";
+
+        model.scale.set(0.15);
+        model.anchor.set(0.5);
+        model.x = app.renderer.width  / 2;
+        model.y = app.renderer.height / 2;
+        app.stage.addChild(model);
+
+        // valores iniciales
+        core.setParameterValueById(ID_BLINK,   0);
+        core.setParameterValueById(ID_ATT,    -30);
+        core.setParameterValueById(ID_LEG,    -30);
+        core.setParameterValueById(ID_MOPEN,   0);
+        core.setParameterValueById(ID_MSPEAK, -1);
+
+        // 2) Parpadeo con timers en lugar de ticker
+        function scheduleBlink() {
+          setTimeout(() => blinkPhase(1), 2000 + Math.random()*3000);
+        }
+        function blinkPhase(step) {
+          if (step === 1) {
+            core.setParameterValueById(ID_BLINK, 0.5);
+            setTimeout(() => blinkPhase(2), 50);
+          } else if (step === 2) {
+            core.setParameterValueById(ID_BLINK, 1.0);
+            setTimeout(() => blinkPhase(3), 50);
+          } else {
+            core.setParameterValueById(ID_BLINK, 0);
+            scheduleBlink();
+          }
+        }
+        scheduleBlink();
+
+        // 3) Lógica de habla y cejas
+        let talking = false;
+        let mouthValue = -1;
+        let browLeft = 0, browRight = 0;
+        let browTargetL = 0, browTargetR = 0;
+        const BROW_LERP = 0.05;
+
+        let mouthInterval = null;
+        function startTalking() {
+          if (mouthInterval) clearInterval(mouthInterval);
+          talking = true;
+          core.setParameterValueById(ID_MOPEN, 1);
+          mouthInterval = setInterval(() => {
+            const speed = ((Math.random()*0.15)+0.05)*(Math.random()<0.5 ? -1 : 1);
+            mouthValue = Math.max(-1, Math.min(1, mouthValue + speed));
+            core.setParameterValueById(ID_MSPEAK, mouthValue);
+
+            // actualizar objetivos de cejas
+            const base = (Math.random()*2 - 1)*60;
+            const tilt = (Math.random()*2 - 1)*20;
+            browTargetL = base + tilt;
+            browTargetR = base - tilt;
+          }, 150);
+        }
+
+        function stopTalking() {
+          talking = false;
+          clearInterval(mouthInterval);
+          core.setParameterValueById(ID_MOPEN, 0);
+          core.setParameterValueById(ID_MSPEAK, -1);
+          browTargetL = browTargetR = 0;
+        }
+
+        // 4) ticker solo para suavizar cejas y aplicar estado de habla
+        app.ticker.add(delta => {
+          // se suavizan las cejas
+          browLeft  += (browTargetL - browLeft) * BROW_LERP * delta;
+          browRight += (browTargetR - browRight) * BROW_LERP * delta;
+          core.setParameterValueById(ID_BROW_L, browLeft);
+          core.setParameterValueById(ID_BROW_R, browRight);
+
+          // asegurar que la boca refleje talking
+          if (!talking) {
+            // no repetir si ya está en reposo
+            core.setParameterValueById(ID_MSPEAK, -1);
+          }
+        });
+
+        // 5) Exponer controles externos
+        window.avatarModel    = model;
+        window.avatarTalking  = startTalking;
+        window.avatarSilencio = stopTalking;
+
+        resolve();
+      })
+      .catch(err => {
         console.error("Error al cargar el modelo:", err);
         reject(err);
-    });
+      });
   });
 }
+
 
 async function presentarAvatar(tipo) {
   localStorage.setItem("tipoDocumento", tipo); // Guardamos el tipo para usarlo después
