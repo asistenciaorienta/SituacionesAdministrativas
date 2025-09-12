@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.59");
+  alert("Versión 2.60");
 };
 
 // Obtener la voz deseada
@@ -647,29 +647,33 @@ async function responderAyuda(necesitaAyuda) {
     // El usuario no quiere ayuda → eliminar botones y el avatar es reactivo a la pulsación
     burbujas.forEach(burbuja => burbuja.remove()); // ✅ eliminar ambos
     detenerHablaAvatar(); // ✅ detener habla al pulsar
-    hablarYEscribir("De acuerdo, si necesitas ayuda más adelante, estaré por aquí.");
-    // ✅ Activar modo reactivo
-    window.avatarReactivo = true;
-    const avatar = document.getElementById("avatarFlotante");
-    // ✅ Evitar múltiples registros
-    if (!avatar.dataset.reactivoRegistrado) {
-      avatar.addEventListener("click", reactivarAyuda);
-      avatar.dataset.reactivoRegistrado = "true";
-    }
-  }
-}
-
-function reactivarAyuda() {
-  if (window.avatarReactivo) {
-    window.avatarReactivo = false;
-
-    hablarYEscribir("¿Quieres que te ayude con tu trámite?")
+    hablarYEscribir("De acuerdo, si necesitas ayuda más adelante, pulsa sobre mí.")
       .then(() => {
-        mostrarBotonesAyuda();
+        activarReactivacionAvatar(); // ✅ registrar el clic solo después de hablar
       });
   }
 }
 
+function activarReactivacionAvatar() {
+  const avatar = document.getElementById("avatarFlotante");
+
+  if (!avatar.dataset.reactivacionActiva) {
+    const reactivarAyuda = () => {
+      window.avatarReactivo = false;
+      avatar.removeEventListener("click", reactivarAyuda);
+      delete avatar.dataset.reactivacionActiva;
+
+      hablarYEscribir("¿Quieres que te ayude con tu trámite?")
+        .then(() => {
+          mostrarBotonesAyuda();
+        });
+    };
+
+    avatar.addEventListener("click", reactivarAyuda);
+    avatar.dataset.reactivacionActiva = "true";
+    window.avatarReactivo = true;
+  }
+}
 
 function hablarYEscribir(texto) {
   return new Promise(resolve => {
