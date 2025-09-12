@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.70");
+  alert("Versión 2.71");
 };
 
 // Obtener la voz deseada
@@ -661,9 +661,8 @@ async function responderAyuda(necesitaAyuda) {
         // ✅ Mover avatar a la esquina superior izquierda
         moverAvatar(30, 10);
         avatar.classList.add("avatar-minimizado");
-        canvas.style.width = "60px";
-        canvas.style.height = "60px";
-        
+        canvas.style.width = "100px";
+        canvas.style.height = "100px";        
         // Reducir el modelo Live2D
         if (window.avatarModel) {
           window.avatarModel.scale.set(0.05); // Ajusta según lo que se vea bien
@@ -674,6 +673,7 @@ async function responderAyuda(necesitaAyuda) {
 
 function activarReactivacionAvatar() {
   const avatar = document.getElementById("avatarFlotante");
+  const canvas = document.getElementById("live2dCanvas");
 
   if (!avatar.dataset.reactivacionActiva) {
     const reactivarAyuda = () => {
@@ -682,7 +682,7 @@ function activarReactivacionAvatar() {
       delete avatar.dataset.reactivacionActiva;
       avatar.classList.remove("avatar-minimizado");
       canvas.style.width = "300px"; // o el tamaño original
-      canvas.style.height = "400px";      
+      canvas.style.height = "300px";      
       if (window.avatarModel) {
         window.avatarModel.scale.set(0.15); // tamaño original
       }
