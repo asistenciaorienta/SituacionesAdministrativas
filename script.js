@@ -494,7 +494,7 @@ function iniciarAvatarLive2D() {
       view: canvas,
       autoStart: true,
       //resizeTo: canvas,
-      transparent: true
+      transparent: true,
       width: 300px, // tamaño inicial
       height: 300px
   });
