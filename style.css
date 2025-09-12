@@ -431,8 +431,12 @@ img {
   overflow: visible;
   transition: top 1s ease, left 1s ease;
   z-index: 10;  
+  transition:
+    top 1s ease,
+    left 1s ease,
+    width 0.5s ease,
+    height 0.5s ease;
 }
-
 canvas {
   background: transparent !important;
 }
@@ -610,12 +614,10 @@ canvas {
   overflow: hidden;
   transition: max-height 0.5s ease, opacity 0.5s ease;
 }
-.avatar-minimizado {
+#avatarFlotante.avatar-minimizado {
   width: 60px;
   height: 80px;
-  border-radius: 50%;
-  overflow: hidden;
-  transition: all 0.5s ease;
 }
+
 
 
