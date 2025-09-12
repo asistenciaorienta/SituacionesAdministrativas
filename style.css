@@ -620,6 +620,20 @@ canvas {
 #avatarFlotante.avatar-minimizado {
   transform: scale(0.30);/* 300×0.2 = 60px, 400×0.2 = 80px */
 }
+/* 1) Define la animación de pulso */
+@keyframes pulsoAvatar {
+  0%, 100% {
+    transform: scale(0.18);
+  }
+  50% {
+    transform: scale(0.22);
+  }
+}
+/* 2) Ajusta el origen de la transformación al centro */
+#avatarFlotante.avatar-minimizado {
+  transform-origin: center center;
+  animation: pulsoAvatar 1.6s ease-in-out infinite;
+}
 
 
 
