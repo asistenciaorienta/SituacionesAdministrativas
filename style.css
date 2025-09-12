@@ -456,7 +456,7 @@ canvas {
   box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Sombra para profundidad */
   display: block;
   visibility: visible;
-  /*max-height: 300px; /* o el alto que uses normalmente */
+  max-height: 400px; /* o el alto que uses normalmente */
   transition: max-height 0.5s ease, opacity 0.5s ease; 
 }
 #textoAvatar::after {
