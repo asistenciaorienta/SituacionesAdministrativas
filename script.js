@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.76");
+  alert("Versión 2.77");
 };
 
 // Obtener la voz deseada
@@ -493,11 +493,15 @@ function iniciarAvatarLive2D() {
     const app = new PIXI.Application({
       view: canvas,
       autoStart: true,
-      //resizeTo: canvas,
-      transparent: true,
-      width: 300,
-      height: 300
+      resizeTo: canvas,
+      transparent: true
+      //width: 300,
+      //height: 300
   });
+
+console.log(canvas.clientWidth, canvas.clientHeight);
+console.log(app.renderer.width, app.renderer.height);
+
   const modelPath = "modelo010925_2/modelo010925_2.model3.json"; // Ajusta la ruta si es necesario
   let nextBlink = Date.now() + (2000 + Math.random() * 3000);
   let blinking = false;
