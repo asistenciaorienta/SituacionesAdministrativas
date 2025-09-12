@@ -17,7 +17,7 @@ body {
   background: white;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  padding: 30px 20px 40px;
+  padding: 30px 20px 0px;
   margin: auto  auto 40px;
 }
 
@@ -547,7 +547,7 @@ canvas {
 #formulario_No_Comunitario {
   text-align: center; /* centra el texto y botones dentro */
   background: #f9f9f9;
-  padding: 20px;
+  padding: 40px;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
@@ -563,7 +563,7 @@ canvas {
 #Doc_Necesaria_Comunitario {
   text-align: center; /* centra el texto y botones dentro */
   background: #f9f9f9;
-  padding: 20px;
+  padding: 40px;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
@@ -571,7 +571,7 @@ canvas {
 #mensaje-aclaratorio {
   text-align: center; /* centra el texto y botones dentro */
   background: #f9f9f9;
-  padding: 20px;
+  padding: 40px;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
@@ -579,7 +579,7 @@ canvas {
 #manual {
   text-align: center; /* centra el texto y botones dentro */
   background: #f9f9f9;
-  padding: 20px;
+  padding: 40px;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
