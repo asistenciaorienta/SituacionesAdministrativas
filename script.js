@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.64");
+  alert("Versión 2.65");
 };
 
 // Obtener la voz deseada
@@ -653,7 +653,8 @@ async function responderAyuda(necesitaAyuda) {
       .then(() => {
         activarReactivacionAvatar(); // ✅ registrar el clic solo después de hablar
         // ✅ Mover avatar a la esquina superior izquierda
-        moverAvatar(10, 10);
+        window.avatarSilencio = ()
+        moverAvatar(50, 10);
       });
   }
 }
