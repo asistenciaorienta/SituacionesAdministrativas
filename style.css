@@ -555,7 +555,7 @@ canvas {
 #pagina_inicial {
   text-align: center; /* centra el texto y botones dentro */
   background: #f9f9f9;
-  padding: 20px;
+  padding: 40px;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
