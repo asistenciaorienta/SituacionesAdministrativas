@@ -612,7 +612,7 @@ canvas {
 }
 .avatar-minimizado {
   width: 60px;
-  height: 60px;
+  height: 80px;
   border-radius: 50%;
   overflow: hidden;
   transition: all 0.5s ease;
