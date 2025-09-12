@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.66");
+  alert("Versión 2.68");
 };
 
 // Obtener la voz deseada
@@ -654,9 +654,12 @@ async function responderAyuda(necesitaAyuda) {
         // ✅ Limpiar el texto después de hablar
         const texto = document.getElementById("textoAvatar");
         texto.textContent = "";
+        texto.classList.add("ocultoDeslizado");
+        //texto.classList.add("ocultoSuave"); // ✅ oculta el cuadro con estilo
         activarReactivacionAvatar(); // ✅ registrar el clic solo después de hablar
         // ✅ Mover avatar a la esquina superior izquierda
         moverAvatar(50, 10);
+        avatar.classList.add("avatar-minimizado");
       });
   }
 }
@@ -669,13 +672,13 @@ function activarReactivacionAvatar() {
       window.avatarReactivo = false;
       avatar.removeEventListener("click", reactivarAyuda);
       delete avatar.dataset.reactivacionActiva;
-
+      avatar.classList.remove("avatar-minimizado");
+      document.getElementById("textoAvatar").classList.remove("ocultoDeslizado");
       hablarYEscribir("¿Quieres que te ayude con tu trámite?")
         .then(() => {
           mostrarBotonesAyuda();
         });
     };
-
     avatar.addEventListener("click", reactivarAyuda);
     avatar.dataset.reactivacionActiva = "true";
     window.avatarReactivo = true;
