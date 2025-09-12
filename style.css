@@ -611,7 +611,7 @@ canvas {
   transition: max-height 0.5s ease, opacity 0.5s ease;
 }
 #avatarFlotante.avatar-minimizado {
-  transform: scale(0.2);
+  transform: scale(0.4);/* 300×0.2 = 60px, 400×0.2 = 80px */
 }
 
 
