@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.60");
+  alert("Versión 2.61");
 };
 
 // Obtener la voz deseada
@@ -650,6 +650,9 @@ async function responderAyuda(necesitaAyuda) {
     hablarYEscribir("De acuerdo, si necesitas ayuda más adelante, pulsa sobre mí.")
       .then(() => {
         activarReactivacionAvatar(); // ✅ registrar el clic solo después de hablar
+        // ✅ Mover avatar a la esquina superior izquierda
+        const avatar = document.getElementById("avatarFlotante");
+        avatar.classList.add("avatar-esquina");
       });
   }
 }
