@@ -631,6 +631,8 @@ async function responderAyuda(necesitaAyuda) {
   detenerHablaAvatar(); // ✅ detener habla al pulsar
   const contenedor = document.getElementById("avatarFlotante");
   const burbujas = contenedor.querySelectorAll(".burbujaRespuesta");
+  const avatar = document.getElementById("avatarFlotante");
+  avatar.classList.remove("avatar-esquina");
 
   if (necesitaAyuda) {
     // ✅ El usuario quiere ayuda → eliminar burbujas
