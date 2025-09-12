@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.77");
+  alert("Versión 2.78");
 };
 
 // Obtener la voz deseada
@@ -493,10 +493,10 @@ function iniciarAvatarLive2D() {
     const app = new PIXI.Application({
       view: canvas,
       autoStart: true,
-      resizeTo: canvas,
-      transparent: true
-      //width: 300,
-      //height: 300
+      //resizeTo: canvas
+      transparent: true,
+      width: 300,
+      height: 400
   });
 
 console.log(canvas.clientWidth, canvas.clientHeight);
