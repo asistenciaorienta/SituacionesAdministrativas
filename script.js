@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.69");
+  alert("Versión 2.70");
 };
 
 // Obtener la voz deseada
@@ -653,7 +653,7 @@ async function responderAyuda(necesitaAyuda) {
     hablarYEscribir("De acuerdo, si necesitas ayuda más adelante, pulsa sobre mí.")
       .then(() => {
         // ✅ Limpiar el texto después de hablar
-        //const texto = document.getElementById("textoAvatar");
+        const texto = document.getElementById("textoAvatar");
         //texto.textContent = "";
         texto.classList.add("ocultoDeslizado");
         //texto.classList.add("ocultoSuave"); // ✅ oculta el cuadro con estilo
