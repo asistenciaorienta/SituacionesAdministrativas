@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.73");
+  alert("Versión 2.74");
 };
 
 // Obtener la voz deseada
@@ -665,7 +665,7 @@ async function responderAyuda(necesitaAyuda) {
         canvas.style.height = "100px";        
         // Reducir el modelo Live2D
         if (window.avatarModel) {
-          window.avatarModel.scale.set(0.5); // Ajusta según lo que se vea bien
+          window.avatarModel.scale.set(0.15); // Ajusta según lo que se vea bien
         }
       });
   }
