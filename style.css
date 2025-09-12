@@ -431,7 +431,14 @@ img {
   overflow: visible;
   z-index: 10;  
   transform-origin: top left;
-  transition: transform 0.5s ease;
+  /*transition: transform 0.6s ease;*/
+  /* AÑADIR transiciones para top y left aquí  */
+  transition:
+    top    0.6s ease-out,
+    left   0.6s ease-out,
+    transform 0.5s ease-out;
+  /* Hint de rendimiento para GPU */
+  will-change: top, left, transform;
 }
 canvas {
   background: transparent !important;
