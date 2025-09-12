@@ -495,7 +495,7 @@ function iniciarAvatarLive2D() {
       autoStart: true,
       //resizeTo: canvas,
       transparent: true,
-      width: 300, // tamaño inicial
+      width: 300,
       height: 300
   });
   const modelPath = "modelo010925_2/modelo010925_2.model3.json"; // Ajusta la ruta si es necesario
