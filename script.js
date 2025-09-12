@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.74");
+  alert("Versión 2.75");
 };
 
 // Obtener la voz deseada
@@ -493,8 +493,10 @@ function iniciarAvatarLive2D() {
     const app = new PIXI.Application({
       view: canvas,
       autoStart: true,
-      resizeTo: canvas,
+      //resizeTo: canvas,
       transparent: true
+      width: 300, // tamaño inicial
+      height: 300
   });
   const modelPath = "modelo010925_2/modelo010925_2.model3.json"; // Ajusta la ruta si es necesario
   let nextBlink = Date.now() + (2000 + Math.random() * 3000);
@@ -636,6 +638,7 @@ async function responderAyuda(necesitaAyuda) {
   avatar.classList.remove("avatar-esquina");
 
   if (necesitaAyuda) {
+    clearTimeout(window.avatarInactividadTimer);
     // ✅ El usuario quiere ayuda → eliminar burbujas
     burbujas.forEach(burbuja => burbuja.remove());
 
@@ -647,6 +650,7 @@ async function responderAyuda(necesitaAyuda) {
       hablarYEscribir("Ups, no tengo claro qué documento estás tramitando.");
     }
   } else {
+    clearTimeout(window.avatarInactividadTimer);
     // El usuario no quiere ayuda → eliminar botones y el avatar es reactivo a la pulsación
     burbujas.forEach(burbuja => burbuja.remove()); // ✅ eliminar ambos
     detenerHablaAvatar(); // ✅ detener habla al pulsar
@@ -661,11 +665,15 @@ async function responderAyuda(necesitaAyuda) {
         // ✅ Mover avatar a la esquina superior izquierda
         moverAvatar(30, 10);
         avatar.classList.add("avatar-minimizado");
-        canvas.style.width = "100px";
-        canvas.style.height = "100px";        
+        canvas.style.width = "80px";
+        canvas.style.height = "80px";        
         // Reducir el modelo Live2D
-        if (window.avatarModel) {
-          window.avatarModel.scale.set(0.15); // Ajusta según lo que se vea bien
+        // Redimensionar el renderer de Pixi
+        if (window.avatarModel && window.avatarModel.parent) {
+          window.avatarModel.parent.renderer.resize(80, 80);
+          window.avatarModel.scale.set(0.05); // tamaño reducido del modelo
+          window.avatarModel.x = 40;
+          window.avatarModel.y = 40;
         }
       });
   }
@@ -681,10 +689,14 @@ function activarReactivacionAvatar() {
       avatar.removeEventListener("click", reactivarAyuda);
       delete avatar.dataset.reactivacionActiva;
       avatar.classList.remove("avatar-minimizado");
-      canvas.style.width = "300px"; // o el tamaño original
-      canvas.style.height = "300px";      
-      if (window.avatarModel) {
-        window.avatarModel.scale.set(1); // tamaño original
+      canvas.style.width = "300px";
+      canvas.style.height = "300px";
+      
+      if (window.avatarModel && window.avatarModel.parent) {
+        window.avatarModel.parent.renderer.resize(300, 300);
+        window.avatarModel.scale.set(0.15); // tamaño original
+        window.avatarModel.x = 150;
+        window.avatarModel.y = 150;
       }
       document.getElementById("textoAvatar").classList.remove("ocultoDeslizado");
       hablarYEscribir("¿Quieres que te ayude con tu trámite?")
@@ -759,4 +771,31 @@ function mostrarBotonesAyuda() {
 
   contenedor.appendChild(btnSi);
   contenedor.appendChild(btnNo);
+  window.avatarInactividadTimer = setTimeout(() => {
+    minimizarAvatarPorInactividad();
+  }, 15000); // 15 segundos
+}
+
+function minimizarAvatarPorInactividad() {
+  const avatar = document.getElementById("avatarFlotante");
+  const canvas = document.getElementById("live2dCanvas");
+
+  avatar.classList.add("avatar-minimizado");
+  canvas.style.width = "80px";
+  canvas.style.height = "80px";
+  
+  // Redimensionar el renderer de Pixi
+  if (window.avatarModel && window.avatarModel.parent) {
+    window.avatarModel.parent.renderer.resize(80, 80);
+    window.avatarModel.scale.set(0.05); // tamaño reducido del modelo
+    window.avatarModel.x = 40;
+    window.avatarModel.y = 40;
+  }
+
+  const texto = document.getElementById("textoAvatar");
+  texto.textContent = "";
+  texto.classList.add("ocultoDeslizado");
+
+  // Activar modo reactivo si el usuario lo pulsa después
+  activarReactivacionAvatar();
 }
