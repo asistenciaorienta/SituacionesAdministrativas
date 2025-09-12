@@ -422,18 +422,21 @@ img {
   right: 10px;
 }
 #avatarFlotante {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  transition: all 0.6s ease-in-out;
-  z-index: 100;  
+  background: transparent !important;  
+  position: absolute;   /* relativo al contenedor (o body si no hay otro posicionado) */
+  top: 50%;             /* centrado vertical, antes top: 100px;*/
+  left: 20px;           /* pegado al borde izquierdo, antes 50px*/
+  transform: translateY(-50%); /* truco para centrar en vertical */
+  width: 300px;
+  height: 400px;
+  overflow: visible;
+  transition: top 1s ease, left 1s ease;
+  z-index: 10;
 }
-
 .avatar-esquina {
-  top: 20px;
-  left: 20px;
-  bottom: auto;
-  right: auto;
+  top: 20px;      /* esquina superior */
+  left: 20px;     /* esquina izquierda */
+  transform: none; /* quitamos el centrado vertical bottom: auto; right: auto; */
 }
 
 canvas {
