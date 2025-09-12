@@ -429,7 +429,6 @@ img {
   width: 300px;
   height: 400px;
   overflow: visible;
-  transition: top 1s ease, left 1s ease;
   z-index: 10;  
   transition:
     top 1s ease,
