@@ -456,6 +456,8 @@ canvas {
   box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Sombra para profundidad */
   display: block;
   visibility: visible;
+  max-height: 400px; /* o el alto que uses normalmente */
+  transition: max-height 0.5s ease, opacity 0.5s ease; 
 }
 #textoAvatar::after {
   content: "|";
@@ -602,3 +604,18 @@ canvas {
   padding: 0;
   overflow: hidden;
 }
+.ocultoDeslizado {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.5s ease;
+}
+.avatar-minimizado {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  transition: all 0.5s ease;
+  cursor: pointer;
+}
+
