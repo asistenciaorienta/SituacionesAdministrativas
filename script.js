@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.68");
+  alert("Versión 2.69");
 };
 
 // Obtener la voz deseada
@@ -632,6 +632,7 @@ async function responderAyuda(necesitaAyuda) {
   const contenedor = document.getElementById("avatarFlotante");
   const burbujas = contenedor.querySelectorAll(".burbujaRespuesta");
   const avatar = document.getElementById("avatarFlotante");
+  const canvas = document.getElementById("live2dCanvas");
   avatar.classList.remove("avatar-esquina");
 
   if (necesitaAyuda) {
@@ -652,14 +653,21 @@ async function responderAyuda(necesitaAyuda) {
     hablarYEscribir("De acuerdo, si necesitas ayuda más adelante, pulsa sobre mí.")
       .then(() => {
         // ✅ Limpiar el texto después de hablar
-        const texto = document.getElementById("textoAvatar");
-        texto.textContent = "";
+        //const texto = document.getElementById("textoAvatar");
+        //texto.textContent = "";
         texto.classList.add("ocultoDeslizado");
         //texto.classList.add("ocultoSuave"); // ✅ oculta el cuadro con estilo
         activarReactivacionAvatar(); // ✅ registrar el clic solo después de hablar
         // ✅ Mover avatar a la esquina superior izquierda
-        moverAvatar(50, 10);
+        moverAvatar(30, 10);
         avatar.classList.add("avatar-minimizado");
+        canvas.style.width = "60px";
+        canvas.style.height = "60px";
+        
+        // Reducir el modelo Live2D
+        if (window.avatarModel) {
+          window.avatarModel.scale.set(0.05); // Ajusta según lo que se vea bien
+        }
       });
   }
 }
@@ -673,6 +681,11 @@ function activarReactivacionAvatar() {
       avatar.removeEventListener("click", reactivarAyuda);
       delete avatar.dataset.reactivacionActiva;
       avatar.classList.remove("avatar-minimizado");
+      canvas.style.width = "300px"; // o el tamaño original
+      canvas.style.height = "400px";      
+      if (window.avatarModel) {
+        window.avatarModel.scale.set(0.15); // tamaño original
+      }
       document.getElementById("textoAvatar").classList.remove("ocultoDeslizado");
       hablarYEscribir("¿Quieres que te ayude con tu trámite?")
         .then(() => {
