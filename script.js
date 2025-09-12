@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.81");
+  alert("Versión 2.82");
 };
 
 // Obtener la voz deseada
@@ -654,30 +654,13 @@ async function responderAyuda(necesitaAyuda) {
     detenerHablaAvatar(); // ✅ detener habla al pulsar
     hablarYEscribir("De acuerdo, si necesitas ayuda más adelante, pulsa sobre mí.")
       .then(() => {
-        // ✅ Limpiar el texto después de hablar
+        // ✅ oculta el cuadro con estilo
         const texto = document.getElementById("textoAvatar");
-        //texto.textContent = "";
-        texto.classList.add("ocultoDeslizado"); // ✅ oculta el cuadro con estilo
+        texto.classList.add("ocultoDeslizado"); 
         activarReactivacionAvatar(); // ✅ registrar el clic solo después de hablar
         // ✅ Mover avatar a la esquina superior izquierda
         moverAvatar(30, 10);
-        avatar.classList.add("avatar-minimizado");
-        canvas.style.width = "60px";
-        canvas.style.height = "80px";        
-        // Reducir el modelo Live2D
-        // Redimensionar el renderer de Pixi
-        if (window.avatarApp && window.avatarModel) {
-          // Redimensionar el renderer y el canvas
-          window.avatarApp.renderer.resize(60, 80);
-          const canvas = document.getElementById("live2dCanvas");
-          canvas.width  = 60;
-          canvas.height = 80;
-        
-          // Ajustar escala y posición del modelo
-          window.avatarModel.scale.set(0.05);
-          window.avatarModel.x = 40;
-          window.avatarModel.y = 40;
-        }
+        minimizarAvatar(60, 80, 0.05);
       });
   }
 }
@@ -691,16 +674,7 @@ function activarReactivacionAvatar() {
       window.avatarReactivo = false;
       avatar.removeEventListener("click", reactivarAyuda);
       delete avatar.dataset.reactivacionActiva;
-      avatar.classList.remove("avatar-minimizado");
-      canvas.style.width = "300px";
-      canvas.style.height = "400px";      
-      // Restaurar a 300×400
-      window.avatarApp.renderer.resize(300, 400);
-      canvas.width  = 300;
-      canvas.height = 400;
-      window.avatarModel.scale.set(0.15);
-      window.avatarModel.x = 300/2;
-      window.avatarModel.y = 400/2;
+      restaurarAvatar();
       document.getElementById("textoAvatar").classList.remove("ocultoDeslizado");
       hablarYEscribir("¿Quieres que te ayude con tu trámite?")
         .then(() => {
@@ -780,25 +754,60 @@ function mostrarBotonesAyuda() {
 }
 
 function minimizarAvatarPorInactividad() {
-  const avatar = document.getElementById("avatarFlotante");
-  const canvas = document.getElementById("live2dCanvas");
-
-  avatar.classList.add("avatar-minimizado");
-  canvas.style.width = "80px";
-  canvas.style.height = "80px";
-  
-  // Redimensionar el renderer de Pixi
-  if (window.avatarModel && window.avatarModel.parent) {
-    window.avatarModel.parent.renderer.resize(80, 80);
-    window.avatarModel.scale.set(0.05); // tamaño reducido del modelo
-    window.avatarModel.x = 40;
-    window.avatarModel.y = 40;
-  }
-
+  minimizarAvatar(60, 80, 0.05);
   const texto = document.getElementById("textoAvatar");
   texto.textContent = "";
   texto.classList.add("ocultoDeslizado");
-
   // Activar modo reactivo si el usuario lo pulsa después
   activarReactivacionAvatar();
+}
+
+function minimizarAvatar(width, height, scale) {
+  const avatar = document.getElementById("avatarFlotante");
+  const canvas = document.getElementById("live2dCanvas");
+
+  // 1) Clase sobre el propio id → permite CSS más específica
+  avatar.classList.add("avatar-minimizado");
+
+  // 2) Inline styles anulan aún más si hubiera conflicto
+  avatar.style.width  = width + "px";
+  avatar.style.height = height + "px";
+
+  // 3) Canvas HTML (resolución interna)
+  canvas.width  = width;
+  canvas.height = height;
+  canvas.style.width  = width + "px";
+  canvas.style.height = height + "px";
+
+  // 4) PixiJS renderer
+  if (window.avatarApp) {
+    window.avatarApp.renderer.resize(width, height);
+  }
+  // 5) Escala y reposiciona el modelo
+  if (window.avatarModel) {
+    window.avatarModel.scale.set(scale);
+    window.avatarModel.x = width  / 2;
+    window.avatarModel.y = height / 2;
+  }
+}
+
+function restaurarAvatar() {
+  const avatar = document.getElementById("avatarFlotante");
+  const canvas = document.getElementById("live2dCanvas");
+
+  avatar.classList.remove("avatar-minimizado");
+  avatar.style.width  = "300px";
+  avatar.style.height = "400px";
+
+  canvas.width  = 300;
+  canvas.height = 400;
+  canvas.style.width  = "300px";
+  canvas.style.height = "400px";
+
+  window.avatarApp.renderer.resize(300, 400);
+  window.avatarModel.scale.set(0.15);
+  window.avatarModel.x = 300 / 2;
+  window.avatarModel.y = 400 / 2;
+
+  document.getElementById("textoAvatar").classList.remove("ocultoDeslizado");
 }
