@@ -427,7 +427,7 @@ img {
   top: 100px;             /* centrado vertical, antes top: 100px;*/
   left: 50px;           /* pegado al borde izquierdo, antes 50px*/
   width: 300px;
-  height: 400px;
+  height: 300px;
   overflow: visible;
   transition: top 1s ease, left 1s ease;
   z-index: 10;  
@@ -471,7 +471,7 @@ canvas {
 @keyframes entradaAvatar {
   0% {
     opacity: 0;
-    transform: translateY(30px) scale(0.95);
+    transform: translateY(30px) scale(0.75);/* 0.95 */
   }
   100% {
     opacity: 1;
@@ -491,7 +491,7 @@ canvas {
     transform: scale(1.1);
   }
   80% {
-    transform: scale(0.95);
+    transform: scale(0.85);
   }
   100% {
     transform: scale(1);
