@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.78");
+  alert("Versión 2.79");
 };
 
 // Obtener la voz deseada
@@ -498,10 +498,6 @@ function iniciarAvatarLive2D() {
       width: 300,
       height: 400
   });
-
-console.log(canvas.clientWidth, canvas.clientHeight);
-console.log(app.renderer.width, app.renderer.height);
-
   const modelPath = "modelo010925_2/modelo010925_2.model3.json"; // Ajusta la ruta si es necesario
   let nextBlink = Date.now() + (2000 + Math.random() * 3000);
   let blinking = false;
@@ -663,8 +659,7 @@ async function responderAyuda(necesitaAyuda) {
         // ✅ Limpiar el texto después de hablar
         const texto = document.getElementById("textoAvatar");
         //texto.textContent = "";
-        texto.classList.add("ocultoDeslizado");
-        //texto.classList.add("ocultoSuave"); // ✅ oculta el cuadro con estilo
+        texto.classList.add("ocultoDeslizado"); // ✅ oculta el cuadro con estilo
         activarReactivacionAvatar(); // ✅ registrar el clic solo después de hablar
         // ✅ Mover avatar a la esquina superior izquierda
         moverAvatar(30, 10);
@@ -697,7 +692,7 @@ function activarReactivacionAvatar() {
       canvas.style.height = "300px";
       
       if (window.avatarModel && window.avatarModel.parent) {
-        window.avatarModel.parent.renderer.resize(300, 300);
+        window.avatarModel.parent.renderer.resize(300, 400);
         window.avatarModel.scale.set(0.15); // tamaño original
         window.avatarModel.x = 150;
         window.avatarModel.y = 150;
