@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.87");
+  alert("Versión 2.88");
 };
 
 // Obtener la voz deseada
@@ -52,7 +52,9 @@ document.getElementById("btnEscucharMuestra").addEventListener("click", () => {
 
   window.speechSynthesis.speak(muestra);
 });
-
+document.addEventListener("DOMContentLoaded", () => {
+  cargarVoces(); // ✅ Ejecutar directamente al cargar
+});
 const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxigLGGauWCphFL95VD5R0mWm5mM65_wuq5KhwWxyZmM8I8h5pJQ-nKzJ5u6DqpNJTvaw/exec";
 function ayuda() {
   detenerHablaAvatar(); // ✅ detener habla al pulsar
@@ -659,7 +661,7 @@ async function responderAyuda(necesitaAyuda) {
         texto.classList.add("ocultoDeslizado"); 
         activarReactivacionAvatar(); // ✅ registrar el clic solo después de hablar
         // ✅ Mover avatar a la esquina superior izquierda
-        moverAvatar(5, 5);
+        moverAvatar(500, 300);
         minimizarAvatar(0.3);
       });
   }
@@ -725,10 +727,6 @@ function detenerHablaAvatar() {
   window.speechSynthesis.cancel(); // ✅ Detiene cualquier discurso activo
   if (window.avatarSilencio) window.avatarSilencio(); // ✅ Detiene animación de boca
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  cargarVoces(); // ✅ Ejecutar directamente al cargar
-});
 
 function mostrarBotonesAyuda() {
   const contenedor = document.getElementById("avatarFlotante");
