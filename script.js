@@ -659,7 +659,7 @@ async function responderAyuda(necesitaAyuda) {
         texto.classList.add("ocultoDeslizado"); 
         activarReactivacionAvatar(); // ✅ registrar el clic solo después de hablar
         // ✅ Mover avatar a la esquina superior izquierda
-        moverAvatar(20, 10);
+        moverAvatar(5, 5);
         minimizarAvatar(0.3);
       });
   }
