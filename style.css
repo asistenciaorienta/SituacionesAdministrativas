@@ -632,7 +632,7 @@ canvas {
 /* 2) Ajusta el origen de la transformación al centro */
 #avatarFlotante.avatar-minimizado {
   transform-origin: center center;
-  animation: pulsoAvatar 0.6s ease-in-out infinite;
+  animation: pulsoAvatar 2.6s ease-in-out infinite;
 }
 
 
