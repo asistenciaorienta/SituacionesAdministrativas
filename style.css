@@ -617,8 +617,8 @@ canvas {
   overflow: hidden;
   transition: max-height 0.5s ease, opacity 0.5s ease;
 }
-/*#avatarFlotante.avatar-minimizado {*/
-/*  transform: scale(0.30);*/        /* 300×0.2 = 60px, 400×0.2 = 80px */
+#avatarFlotante.avatar-minimizado {
+  transform: scale(0.30);        /* 300×0.2 = 60px, 400×0.2 = 80px */
 }
 /* 1) Define la animación de pulso */
 @keyframes pulsoAvatar {
