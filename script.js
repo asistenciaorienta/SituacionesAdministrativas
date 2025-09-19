@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.90");
+  alert("Versión 2.91");
 };
 
 // Obtener la voz deseada
@@ -550,9 +550,13 @@ function iniciarAvatarLive2D() {
           if (mouthInterval) clearInterval(mouthInterval);
           talking = true;
           core.setParameterValueById(ID_MOPEN, 1);
+          // empezamos siempre en 1
+          mouthValue = 1;
           mouthInterval = setInterval(() => {
-            const speed = ((Math.random()*0.15)+0.05)*(Math.random()<0.5 ? -1 : 1);
-            mouthValue = Math.max(-1, Math.min(1, mouthValue + speed));
+            // alternar de 1 a -1 y viceversa
+            mouthValue *= -1;
+            //const speed = ((Math.random()*0.15)+0.05)*(Math.random()<0.5 ? -1 : 1);
+            //mouthValue = Math.max(-1, Math.min(1, mouthValue + speed));
             core.setParameterValueById(ID_MSPEAK, mouthValue);
             // actualizar objetivos de cejas
             const base = (Math.random()*2 - 1)*60;
