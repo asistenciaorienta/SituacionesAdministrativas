@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.91");
+  alert("Versión 2.92");
 };
 
 // Obtener la voz deseada
@@ -702,12 +702,13 @@ function hablarYEscribir(texto) {
     const contenedor = document.getElementById("textoAvatar");
     contenedor.textContent = "";
 
-    let intervalo; // referencia para luego poder limpiar
+    let intervalo; // para el tipeo
+    let bocaAbierta = false;
 
     speech.onstart = () => {
       if (window.avatarTalking) window.avatarTalking();
 
-      // 🚀 arrancar el tipeo justo cuando empieza a hablar
+      // tipeo sincronizado con inicio de la voz
       const letras = texto.split("");
       let i = 0;
       intervalo = setInterval(() => {
@@ -717,15 +718,27 @@ function hablarYEscribir(texto) {
       }, 50);
     };
 
+    // 🔑 cada vez que el motor empieza una palabra/fonema
+    speech.onboundary = event => {
+      if (event.name === "word" || event.name === "sentence") {
+        if (window.avatarModel) {
+          bocaAbierta = !bocaAbierta;
+          const valor = bocaAbierta ? 1 : -1;
+          window.avatarModel.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", valor);
+        }
+      }
+    };
+
     speech.onend = () => {
       if (window.avatarSilencio) window.avatarSilencio();
-      if (intervalo) clearInterval(intervalo); // por si termina antes
-      resolve(); // ✅ termina la promesa
+      if (intervalo) clearInterval(intervalo);
+      resolve();
     };
 
     window.speechSynthesis.speak(speech);
   });
 }
+
 
 function detenerHablaAvatar() {
   window.speechSynthesis.cancel(); // ✅ Detiene cualquier discurso activo
