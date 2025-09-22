@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.92");
+  alert("Versión 2.93");
 };
 
 // Obtener la voz deseada
@@ -183,8 +183,9 @@ const combinacionesValidas = [
 ];
 
 function gestionarSeleccion(seleccionado) {
-  const opciones = ["TIE", "Resolución", "Tarjeta Roja", "NIE"];
-  
+  const opciones = ["TIE", "Resolución", "Tarjeta Roja", "Solicitud", "TASA", "NIE"];
+  const sinSubopciones = ["Solicitud", "TASA", "NIE"];
+
   // Ocultar todas las subopciones y limpiar selecciones previas
   opciones.forEach(opcion => {
     const subDiv = document.getElementById(`subopciones-${opcion}`);
@@ -195,10 +196,12 @@ function gestionarSeleccion(seleccionado) {
     }
   });
 
-  // Mostrar solo las subopciones correspondientes
+  // Mostrar solo si tiene subopciones
   const seleccion = seleccionado.value;
-  const sub = document.getElementById(`subopciones-${seleccion}`);
-  if (sub) sub.style.display = "flex";
+  if (!sinSubopciones.includes(seleccion)) {
+    const sub = document.getElementById(`subopciones-${seleccion}`);
+    if (sub) sub.style.display = "flex";
+  }
 }
 
 function evaluarDocumento() {
@@ -207,22 +210,26 @@ function evaluarDocumento() {
     mostrarModal("Selecciona una opción.");
     return;
   }
+
   const valorPrincipal = seleccionPrincipal.value;
+  const sinSubopciones = ["Solicitud", "TASA", "NIE"];
   let subValor = null;
-  // Detectar subvalor según el documento principal
-  if (valorPrincipal === "TIE") {
-    subValor = document.querySelector('input[name="estado-TIE"]:checked')?.value;
-  } else if (valorPrincipal === "Resolución") {
-    subValor = document.querySelector('input[name="estado-Resolución"]:checked')?.value;
-  } else if (valorPrincipal === "Tarjeta Roja") {
-    subValor = document.querySelector('input[name="estado-Tarjeta"]:checked')?.value;
-  } else if (valorPrincipal === "NIE") {
-    subValor = document.querySelector('input[name="estado-NIE"]:checked')?.value;
+
+  if (!sinSubopciones.includes(valorPrincipal)) {
+    if (valorPrincipal === "TIE") {
+      subValor = document.querySelector('input[name="estado-TIE"]:checked')?.value;
+    } else if (valorPrincipal === "Resolución") {
+      subValor = document.querySelector('input[name="estado-Resolución"]:checked')?.value;
+    } else if (valorPrincipal === "Tarjeta Roja") {
+      subValor = document.querySelector('input[name="estado-Tarjeta"]:checked')?.value;
+    }
+
+    if (!subValor) {
+      mostrarModal("Selecciona una sub-opción.");
+      return;
+    }
   }
-  if (!subValor) {
-    mostrarModal("Selecciona una sub-opción.");
-    return;
-  }
+
   // Mostrar manual si está en vigor
   if (valorPrincipal === "TIE" && subValor === "En Vigor") {
     presentarAvatar("TIE");
@@ -231,10 +238,12 @@ function evaluarDocumento() {
   } else if (valorPrincipal === "Tarjeta Roja" && subValor === "En Vigor") {
     presentarAvatar("Tarjeta Roja");
   } else {
-    // Mostrar aclaración
     document.getElementById("formulario_No_Comunitario").classList.add("hidden");
     document.getElementById("mensaje-aclaratorio").classList.remove("hidden");
-    document.getElementById("contenido-aclaratorio").textContent = `Has seleccionado: ${valorPrincipal} - ${subValor}. Aquí aparecerá la aclaración correspondiente.`;
+    const texto = sinSubopciones.includes(valorPrincipal)
+      ? `Has seleccionado: ${valorPrincipal}. Aquí aparecerá la aclaración correspondiente.`
+      : `Has seleccionado: ${valorPrincipal} - ${subValor}. Aquí aparecerá la aclaración correspondiente.`;
+    document.getElementById("contenido-aclaratorio").textContent = texto;
   }
 }
 
