@@ -89,15 +89,6 @@
         </div>
 
         <label class="document-item">
-          <input type="radio" name="documento" value="Resolución" onclick="gestionarSeleccion(this)">
-          Resolución
-        </label>
-        <div id="subopciones-Resolución" class="sub-options">
-          <label><input type="radio" name="estado-Resolución" value="En Vigor"> En Vigor</label>
-          <label><input type="radio" name="estado-Resolución" value="Caducado"> Caducada</label>
-        </div>
-
-        <label class="document-item">
           <input type="radio" name="documento" value="Tarjeta Roja" onclick="gestionarSeleccion(this)">
           Tarjeta Roja
         </label>
@@ -107,13 +98,40 @@
         </div>
 
         <label class="document-item">
-          <input type="radio" name="documento" value="NIE" onclick="gestionarSeleccion(this)">
-          NIE
+          <input type="radio" name="documento" value="Resolución" onclick="gestionarSeleccion(this)">
+          Resolución
         </label>
-        <div id="subopciones-NIE" class="sub-options">
+        <div id="subopciones-Resolución" class="sub-options">
+          <label><input type="radio" name="estado-Resolución" value="En Vigor"> En Vigor</label>
+          <label><input type="radio" name="estado-Resolución" value="Caducado"> Caducada</label>
+        </div>
+
+        <label class="document-item">
+          <input type="radio" name="documento" value="Resolución" onclick="gestionarSeleccion(this)">
+          Solicitudes y Resguardos
+        </label>
+        <!-- <div id="subopciones-Resolución" class="sub-options">
+          <label><input type="radio" name="estado-Resolución" value="En Vigor"> En Vigor</label>
+          <label><input type="radio" name="estado-Resolución" value="Caducado"> Caducada</label>
+        </div>-->
+
+        <label class="document-item">
+          <input type="radio" name="documento" value="NIE" onclick="gestionarSeleccion(this)">
+          NIE (Asignación de Número de NIE sin foto)
+        </label>
+            <!-- <div id="subopciones-NIE" class="sub-options">
           <label><input type="radio" name="estado-NIE" value="Aporta Solicitud"> Aporta Solicitud</label>
           <label><input type="radio" name="estado-NIE" value="No aporta"> No aporta Solicitud</label>
-        </div>
+        </div> -->
+
+        <label class="document-item">
+          <input type="radio" name="documento" value="NIE" onclick="gestionarSeleccion(this)">
+          TASA (Se necesita aportar solicitud)
+        </label>
+            <!-- <div id="subopciones-NIE" class="sub-options">
+          <label><input type="radio" name="estado-NIE" value="Aporta Solicitud"> Aporta Solicitud</label>
+          <label><input type="radio" name="estado-NIE" value="No aporta"> No aporta Solicitud</label>
+        </div> -->
       </div>
       <button class="btn" onclick="evaluarDocumento()">Continuar</button>   <br>   
       <button class="btn-small" onclick="volverNacionalidad()">← Volver</button>
