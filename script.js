@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.95");
+  alert("Versión 2.96");
 };
 
 // Obtener la voz deseada
@@ -208,7 +208,7 @@ function evaluarDocumento() {
   const seleccionPrincipal = document.querySelector('input[name="documento"]:checked');
   const aclaracionesSinSubopciones = {
     NIE: "Has seleccionado NIE. Este documento no requiere subopciones y se gestiona directamente.",
-    Solicitud: "Has seleccionado Solicitud. Aquí puedes iniciar trámites relacionados sin necesidad de especificar estado.",
+    Solicitud: "Has seleccionado Solicitudes y/o Resguardos. Aquí puedes iniciar trámites relacionados sin necesidad de especificar estado.",
     TASA: "Has seleccionado TASA. Este apartado corresponde al pago de tasas y no requiere subopciones."
   };
 
