@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.93");
+  alert("Versión 2.95");
 };
 
 // Obtener la voz deseada
@@ -206,6 +206,12 @@ function gestionarSeleccion(seleccionado) {
 
 function evaluarDocumento() {
   const seleccionPrincipal = document.querySelector('input[name="documento"]:checked');
+  const aclaracionesSinSubopciones = {
+    NIE: "Has seleccionado NIE. Este documento no requiere subopciones y se gestiona directamente.",
+    Solicitud: "Has seleccionado Solicitud. Aquí puedes iniciar trámites relacionados sin necesidad de especificar estado.",
+    TASA: "Has seleccionado TASA. Este apartado corresponde al pago de tasas y no requiere subopciones."
+  };
+
   if (!seleccionPrincipal) {
     mostrarModal("Selecciona una opción.");
     return;
@@ -240,9 +246,12 @@ function evaluarDocumento() {
   } else {
     document.getElementById("formulario_No_Comunitario").classList.add("hidden");
     document.getElementById("mensaje-aclaratorio").classList.remove("hidden");
-    const texto = sinSubopciones.includes(valorPrincipal)
-      ? `Has seleccionado: ${valorPrincipal}. Aquí aparecerá la aclaración correspondiente.`
-      : `Has seleccionado: ${valorPrincipal} - ${subValor}. Aquí aparecerá la aclaración correspondiente.`;
+    let texto;
+    if (sinSubopciones.includes(valorPrincipal)) {
+      texto = aclaracionesSinSubopciones[valorPrincipal] || `Has seleccionado: ${valorPrincipal}.`;
+    } else {
+      texto = `Has seleccionado: ${valorPrincipal} - ${subValor}. Aquí aparecerá la aclaración correspondiente.`;
+    }
     document.getElementById("contenido-aclaratorio").textContent = texto;
   }
 }
