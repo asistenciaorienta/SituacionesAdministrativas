@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.96");
+  alert("Versión 2.97");
 };
 
 // Obtener la voz deseada
@@ -29,7 +29,7 @@ function cargarVoces() {
     selector.value = guardada;
     vozSeleccionada = voces.find(v => v.name === guardada);
   } else {
-    vozSeleccionada = voces[0]; // Por defecto, la primera
+    vozSeleccionada = voces[3]; // Por defecto, la primera
   }
 
   selector.addEventListener("change", () => {
