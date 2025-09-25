@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.97");
+  alert("Versión 2.98");
 };
 
 // Obtener la voz deseada
@@ -357,33 +357,54 @@ function volverNoComunitario() {
 }
 
 function mostrarResultado(data) {
-    const contenedor = document.getElementById("resultado");
-    contenedor.innerHTML = ""; // Limpiar resultados anteriores
+  const contenedor = document.getElementById("resultado");
+  contenedor.innerHTML = ""; // Limpiar resultados anteriores
 
-    if (!data || data.length === 0) {
-      const ayuda = document.createElement("p");
-      ayuda.innerHTML = `
-        <p style="text-align: center;">No se encontró nada. Si necesitas ayuda, puedes clicar en: 
-        <button class="btn-small" onclick="mostrarSugerencias()">Mostrar sugerencias</button></p>
-      `;
-      contenedor.appendChild(ayuda);
-      return;
-    }
+  if (!data || data.length === 0) {
+    const ayuda = document.createElement("p");
+    ayuda.innerHTML = `
+      <p style="text-align: center;">No se encontró nada. Si necesitas ayuda, puedes clicar en: 
+      <button class="btn-small" onclick="mostrarSugerencias()">Mostrar sugerencias</button></p>
+    `;
+    contenedor.appendChild(ayuda);
+    return;
+  }
 
-    data.forEach(item => {
-      const card = document.createElement("div");
-      card.className = "resultado-item";
-      card.innerHTML = `
-        <p><strong>Código:</strong> ${item.codigo}</p>
-        <p><strong>Autorización:</strong> ${item.autoriza}</p>
-        <p><strong>Modalidad:</strong> ${item.modalidad}</p>
-        <p><strong>Observaciones:</strong> ${item.observaciones}</p>
-        <p><strong>Documentación:</strong> ${item.documento}</p>
-        <hr>
-      `;
-      contenedor.appendChild(card);
-    });
+  // Crear tabla
+  const tabla = document.createElement("table");
+
+  // Cabecera
+  tabla.innerHTML = `
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Autorización</th>
+        <th>Modalidad</th>
+        <th>Observaciones</th>
+        <th>Documentación</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  `;
+
+  const cuerpo = tabla.querySelector("tbody");
+
+  // Filas
+  data.forEach(item => {
+    const fila = document.createElement("tr");
+    fila.innerHTML = `
+      <td>${item.codigo || ""}</td>
+      <td>${item.autoriza || ""}</td>
+      <td>${item.modalidad || ""}</td>
+      <td>${item.observaciones || ""}</td>
+      <td>${item.documento || ""}</td>
+    `;
+    cuerpo.appendChild(fila);
+  });
+
+  contenedor.appendChild(tabla);
 }
+
 
 function mostrarSugerencias() {
   const panel = document.getElementById("sugerenciasPanel");
