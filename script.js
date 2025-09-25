@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.98");
+  alert("Versión 2.99");
 };
 
 // Obtener la voz deseada
@@ -397,7 +397,11 @@ function mostrarResultado(data) {
       <td>${item.autoriza || ""}</td>
       <td>${item.modalidad || ""}</td>
       <td>${item.observaciones || ""}</td>
-      <td>${item.documento || ""}</td>
+      <td> ${item.documento
+          ? `<a href="${item.documento}" target="_blank" rel="noopener noreferrer">Ver PDF</a>`
+          : "No disponible"}
+      </td>
+
     `;
     cuerpo.appendChild(fila);
   });
