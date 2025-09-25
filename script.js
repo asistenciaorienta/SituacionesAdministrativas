@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Versión 2.99");
+  alert("Versión 3.00");
 };
 
 // Obtener la voz deseada
@@ -394,9 +394,9 @@ function mostrarResultado(data) {
     const fila = document.createElement("tr");
     fila.innerHTML = `
       <td>${item.codigo || ""}</td>
-      <td>${item.autoriza || ""}</td>
-      <td>${item.modalidad || ""}</td>
-      <td>${item.observaciones || ""}</td>
+      <td>${(item.autoriza || "").replace(/\n/g, "<br>")}</td>
+      <td>${(item.modalidad || "").replace(/\n/g, "<br>")}</td>
+      <td>${(item.observaciones || "").replace(/\n/g, "<br>")}</td>
       <td> ${item.documento
           ? `<a href="${item.documento}" target="_blank" rel="noopener noreferrer">Ver PDF</a>`
           : "No disponible"}
