@@ -1,7 +1,3 @@
-window.onload = function() {
-  alert("Versión 3.00");
-};
-
 // Obtener la voz deseada
 let vozElegida = null;
 window.speechSynthesis.onvoiceschanged = () => {
